@@ -16,7 +16,7 @@ const categories = [
 
 export default function Navbar() {
   return (
-    <nav className="bg-white border-b border-gray-200 sticky top-0 z-40 font-sans">
+    <nav className="bg-white border-b border-gray-200 sticky top-0 z-40 font-anek">
       <div className="container mx-auto px-4 overflow-x-auto">
         <div className="flex items-center space-x-8 h-12 text-sm font-medium text-gray-600 mb-0.5">
           {categories.map((category) => (

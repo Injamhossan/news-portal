@@ -4,7 +4,7 @@ import FotLogo from '@/assets/Logo-01.png';
 
 export default function Footer() {
   return (
-    <footer className="bg-[#0B1120] text-gray-300 pt-16 pb-8 mt-20 font-sans">
+    <footer className="bg-[#0B1120] text-gray-300 pt-16 pb-8 mt-20 font-anek">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           {/* Brand Column */}
@@ -29,7 +29,7 @@ export default function Footer() {
 
           {/* Categories Column */}
           <div>
-            <h4 className="font-bold text-white text-lg mb-6 font-serif">ক্যাটাগরি</h4>
+            <h4 className="font-bold text-white text-lg mb-6">ক্যাটাগরি</h4>
             <ul className="text-sm space-y-3">
               <li><Link href="/" className="hover:text-[#D32F2F] transition-colors">রাজনীতি</Link></li>
               <li><Link href="/" className="hover:text-[#D32F2F] transition-colors">খেলাধুলা</Link></li>
@@ -42,7 +42,7 @@ export default function Footer() {
 
           {/* Quick Links Column */}
           <div>
-            <h4 className="font-bold text-white text-lg mb-6 font-serif">দ্রুত লিঙ্ক</h4>
+            <h4 className="font-bold text-white text-lg mb-6">দ্রুত লিঙ্ক</h4>
             <ul className="text-sm space-y-3">
               <li><Link href="/" className="hover:text-[#D32F2F] transition-colors">প্রচ্ছদ</Link></li>
               <li><Link href="/admin" className="hover:text-[#D32F2F] transition-colors">অ্যাডমিন প্যানেল</Link></li>
@@ -54,7 +54,7 @@ export default function Footer() {
 
           {/* Connect Column */}
           <div>
-            <h4 className="font-bold text-white text-lg mb-6 font-serif">যুক্ত থাকুন</h4>
+            <h4 className="font-bold text-white text-lg mb-6">যুক্ত থাকুন</h4>
             <div className="flex gap-4 mb-6">
               {/* Facebook */}
               <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-[#1877F2] hover:text-white transition-all transform hover:-translate-y-1">

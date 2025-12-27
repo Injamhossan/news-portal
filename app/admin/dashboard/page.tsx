@@ -91,7 +91,7 @@ export default function AdminDashboard() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 font-sans text-gray-900">
+    <div className="min-h-screen bg-gray-50 font-anek text-gray-900">
       {/* Top Navbar */}
       <nav className="bg-[#111827] text-white shadow-md">
         <div className="container mx-auto px-6 h-16 flex justify-between items-center">

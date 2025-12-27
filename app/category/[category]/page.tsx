@@ -29,7 +29,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   const newsVideoData = await getNewsByCategory(category);
 
   return (
-    <div className="min-h-screen bg-white font-sans text-gray-900">
+    <div className="min-h-screen bg-white font-anek text-gray-900">
       <Header />
       <Navbar />
 

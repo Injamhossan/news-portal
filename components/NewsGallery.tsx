@@ -19,7 +19,7 @@ export default function NewsGallery({ images, title }: NewsGalleryProps) {
 
   if (images.length === 1) {
     return (
-      <div className="mb-10 w-full relative aspect-[16/9] rounded-2xl overflow-hidden bg-gray-100 shadow-sm">
+      <div className="mb-10 w-full relative aspect-video rounded-2xl overflow-hidden bg-gray-100 shadow-sm">
         <Image
           src={images[0]}
           alt={title}
@@ -32,7 +32,7 @@ export default function NewsGallery({ images, title }: NewsGalleryProps) {
   }
 
   return (
-    <div className="mb-10 w-full relative aspect-[16/9] rounded-2xl overflow-hidden bg-gray-100 shadow-sm group">
+    <div className="mb-10 w-full relative aspect-video rounded-2xl overflow-hidden bg-gray-100 shadow-sm group">
       <Swiper
         modules={[Navigation, Pagination, Autoplay]}
         navigation

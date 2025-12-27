@@ -130,7 +130,7 @@ export default function AddNews() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 font-sans text-gray-900 pb-20">
+    <div className="min-h-screen bg-gray-50 font-anek text-gray-900 pb-20">
       {/* Top Bar */}
       <nav className="bg-white sticky top-0 z-10 border-b border-gray-200 px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-4">

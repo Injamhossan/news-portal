@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  --font-anek: var(--font-anekBangla);
+--font-anek: var(--font-anekBangla);
   --font-baloo: var(--font-baloo-da-2);
   --font-galada: var(--font-galada);
   --font-tiro: var(--font-tiro-bangla);
@@ -19,10 +19,10 @@
   --foreground: #171717;
 }
 
-/* 🔥 ONE body rule only */
 body {
   background: var(--background);
   color: var(--foreground);
+  font-family: var(--font-anekBangla), sans-serif; 
 }
 
 

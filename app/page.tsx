@@ -25,7 +25,7 @@ export default async function Home() {
   const newsVideoData = await getNews();
 
   return (
-    <div className="min-h-screen bg-white font-sans text-gray-900">
+ <div className="min-h-screen bg-white font-anek  text-gray-900">
       <Header />
       <Navbar />
 

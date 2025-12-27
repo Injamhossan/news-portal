@@ -25,10 +25,10 @@ export default async function Sidebar() {
   const categories = await getCategoryCounts();
 
   return (
-    <aside className="space-y-8 font-sans">
+    <aside className="space-y-8 font-anek">
       {/* Categories Widget */}
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
-        <h3 className="text-lg font-bold text-gray-900 mb-6 font-serif border-b border-gray-100 pb-2">
+        <h3 className="text-lg font-bold text-gray-900 mb-6 border-b border-gray-100 pb-2">
           ক্যাটাগরি
         </h3>
         <div className="flex flex-col">
@@ -52,7 +52,7 @@ export default async function Sidebar() {
       {/* Newsletter Widget */}
       <div className="bg-[#111827] rounded-xl shadow-lg p-6 text-white relative overflow-hidden">
         <div className="relative z-10">
-            <h3 className="text-xl font-bold mb-2 font-serif">যুক্ত থাকুন</h3>
+            <h3 className="text-xl font-bold mb-2">যুক্ত থাকুন</h3>
             <p className="text-gray-400 text-xs mb-6">
             প্রতিদিন সব খবর পেতে আপনার ইমেইল দিন
             </p>

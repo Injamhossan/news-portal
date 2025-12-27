@@ -60,7 +60,7 @@ export default async function NewsDetailsPage({ params }: NewsDetailsPageProps) 
   const relatedNews = await getRelatedNews(news.category, id);
 
   return (
-    <div className="min-h-screen bg-white font-sans text-gray-900">
+    <div className="min-h-screen bg-white font-anek text-gray-900">
       <Header />
       <Navbar />
 
@@ -78,7 +78,7 @@ export default async function NewsDetailsPage({ params }: NewsDetailsPageProps) 
            <span className={`inline-block px-3 py-1 text-white text-xs font-bold uppercase tracking-wider rounded mb-4 ${news.categoryColor || "bg-[#D32F2F]"}`}>
             {news.category}
           </span>
-          <h1 className="text-3xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight font-serif">
+          <h1 className="text-3xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
             {news.title}
           </h1>
           
@@ -127,7 +127,7 @@ export default async function NewsDetailsPage({ params }: NewsDetailsPageProps) 
         {/* Article Body */}
         <div className="max-w-4xl">
             <div 
-                className="prose prose-lg prose-red max-w-none text-gray-800 leading-relaxed font-serif"
+                className="prose prose-lg prose-red max-w-none text-gray-800 leading-relaxed"
                 dangerouslySetInnerHTML={{ __html: news.content || `<p>${news.excerpt}</p>` }}
             />
 
@@ -162,7 +162,7 @@ export default async function NewsDetailsPage({ params }: NewsDetailsPageProps) 
         {/* Related News */}
         {relatedNews.length > 0 && (
             <div className="mt-16 pt-10 border-t border-gray-200">
-                <h3 className="text-2xl font-bold text-gray-900 mb-8 font-serif border-l-4 border-[#D32F2F] pl-3">
+                <h3 className="text-2xl font-bold text-gray-900 mb-8 border-l-4 border-[#D32F2F] pl-3">
                     সম্পর্কিত খবর (Related News)
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -176,7 +176,7 @@ export default async function NewsDetailsPage({ params }: NewsDetailsPageProps) 
                                 <span>•</span>
                                 <span>{item.date}</span>
                             </div>
-                            <h4 className="text-lg font-bold text-gray-900 group-hover:text-[#D32F2F] transition-colors leading-snug font-serif">
+            <h4 className="text-lg font-bold text-gray-900 group-hover:text-[#D32F2F] transition-colors leading-snug">
                                 {item.title}
                             </h4>
                         </Link>

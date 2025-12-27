@@ -26,12 +26,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="bn">
-<body className={`${banglaFont.className} ${banglaFont.variable} antialiased`}>
+    <html lang="bn" suppressHydrationWarning>
+      <body className={`${banglaFont.variable} font-anek antialiased`}>
         {children}
+        <GoogleAnalytics gaId="G-LDC5ZD9S53"/>
+        <GoogleTagManager gtmId="GTM-W3LBTTW3"/>
       </body>
-      <GoogleAnalytics gaId="G-LDC5ZD9S53"/>
-      <GoogleTagManager gtmId="GTM-W3LBTTW3"/>
     </html>
   );
 }

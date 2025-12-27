@@ -24,7 +24,7 @@ export default function NewsCard({
 }: NewsCardProps) {
   return (
     <Link href={`/news/${_id}`} className="block h-full">
-    <article className="flex flex-col bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-md transition-shadow group h-full font-sans">
+    <article className="flex flex-col bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-md transition-shadow group h-full font-anek">
       <div className="relative h-48 w-full bg-gray-200 overflow-hidden">
         <Image
            src={image || "https://placehold.co/600x400/png"} 
@@ -39,7 +39,7 @@ export default function NewsCard({
         >
           {category}
         </span>
-        <h3 className="text-lg font-bold text-gray-900 mb-3 leading-tight group-hover:text-[#D32F2F] transition-colors font-serif">
+        <h3 className="text-lg font-bold text-gray-900 mb-3 leading-tight group-hover:text-[#D32F2F] transition-colors">
           {title}
         </h3>
         <p className="text-gray-500 text-sm line-clamp-3 mb-4 flex-grow">

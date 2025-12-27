@@ -11,14 +11,14 @@ export default function HeroSection({ news = [] }: HeroSectionProps) {
 
   if (!mainNews) {
     return (
-      <section className="font-sans mb-12 text-center py-10 bg-gray-50 rounded-xl">
+      <section className="font-anek mb-12 text-center py-10 bg-gray-50 rounded-xl">
         <p className="text-gray-500">খবর লোড হচ্ছে অথবা কোনো খবর নেই...</p>
       </section>
     );
   }
 
   return (
-    <section className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12 font-sans">
+    <section className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12 font-anek">
       {/* Main Hero Article */}
       <div className="lg:col-span-2 relative group overflow-hidden rounded-xl shadow-sm min-h-[400px]">
         {/* Dynamic Image */}
@@ -36,7 +36,7 @@ export default function HeroSection({ news = [] }: HeroSectionProps) {
           <span className={`inline-block px-3 py-1 text-white text-xs font-bold rounded mb-3 ${mainNews.categoryColor || "bg-[#7C3AED]"}`}>
             {mainNews.category}
           </span>
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-3 leading-tight font-serif">
+          <h1 className="text-3xl md:text-4xl font-bold text-white mb-3 leading-tight">
             {mainNews.title}
           </h1>
           <p className="text-gray-200 text-sm md:text-base mb-4 line-clamp-2">

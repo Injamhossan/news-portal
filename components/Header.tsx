@@ -10,7 +10,8 @@ export default function Header() {
   });
 
   return (
-    <header className="font-sans">
+    <header className="font-anek
+    ">
       {/* Top Bar */}
       <div className="bg-[#111827] text-white text-xs py-2">
         <div className="container mx-auto px-4 flex justify-between items-center">

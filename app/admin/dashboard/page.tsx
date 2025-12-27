@@ -45,7 +45,8 @@ export default function AdminDashboard() {
 
   const fetchNews = async () => {
     try {
-      const res = await fetch("/api/news");
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "";
+      const res = await fetch(`${apiUrl}/api/news`);
       const data = await res.json();
       setNews(data);
     } catch (error) {
@@ -57,7 +58,8 @@ export default function AdminDashboard() {
     if (!confirm("আপনি কি নিশ্চিত যে আপনি এই খবরটি মুছে ফেলতে চান?")) return;
 
     try {
-      const res = await fetch(`/api/news/${id}`, {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "";
+      const res = await fetch(`${apiUrl}/api/news/${id}`, {
         method: "DELETE",
       });
       if (res.ok) {

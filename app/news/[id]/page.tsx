@@ -7,15 +7,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { 
-  User, 
+  User,
   Clock, 
-  Facebook, 
-  Twitter, 
-  Linkedin, 
-  Mail, 
-  Link as LinkIcon, 
   ArrowLeft 
 } from "lucide-react";
+
+import ShareButtons from "@/components/ShareButtons";
+import NewsGallery from "@/components/NewsGallery";
 
 interface NewsDetailsPageProps {
   params: Promise<{ id: string }>;
@@ -104,26 +102,27 @@ export default async function NewsDetailsPage({ params }: NewsDetailsPageProps) 
               <div className="flex items-center gap-2">
                   <span className="text-sm text-gray-400 mr-2">Share:</span>
                   <div className="flex gap-2">
-                      <button className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-blue-600 hover:text-white transition-colors text-gray-600"><Facebook className="w-4 h-4" /></button>
-                      <button className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-sky-500 hover:text-white transition-colors text-gray-600"><Twitter className="w-4 h-4" /></button>
-                      <button className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-blue-700 hover:text-white transition-colors text-gray-600"><Linkedin className="w-4 h-4" /></button>
-                      <button className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-800 hover:text-white transition-colors text-gray-600"><Mail className="w-4 h-4" /></button>
-                      <button className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-[#D32F2F] hover:text-white transition-colors text-gray-600"><LinkIcon className="w-4 h-4" /></button>
+                       <ShareButtons title={news.title} />
                   </div>
               </div>
           </div>
         </div>
 
         {/* Featured Image */}
-        <div className="mb-10 w-full relative aspect-[16/9] rounded-2xl overflow-hidden bg-gray-100 shadow-sm">
-            <Image 
-                src={news.image || "https://placehold.co/1200x800/png"} 
-                alt={news.title} 
-                fill 
-                className="object-cover"
-                priority
-            />
-        </div>
+        {/* Featured Image or Gallery */}
+        {news.gallery && news.gallery.length > 0 ? (
+           <NewsGallery images={news.gallery} title={news.title} />
+        ) : (
+          <div className="mb-10 w-full relative aspect-[16/9] rounded-2xl overflow-hidden bg-gray-100 shadow-sm">
+              <Image 
+                  src={news.image || "https://placehold.co/1200x800/png"} 
+                  alt={news.title} 
+                  fill 
+                  className="object-cover"
+                  priority
+              />
+          </div>
+        )}
 
         {/* Article Body */}
         <div className="max-w-4xl">
@@ -155,10 +154,7 @@ export default async function NewsDetailsPage({ params }: NewsDetailsPageProps) 
              <div className="flex items-center gap-4 py-6 border-b border-gray-100">
                   <span className="font-bold text-gray-900">Share:</span>
                   <div className="flex gap-2">
-                      <button className="w-9 h-9 flex items-center justify-center rounded-full bg-[#1877F2] text-white hover:opacity-90 transition-opacity"><Facebook className="w-5 h-5" /></button>
-                      <button className="w-9 h-9 flex items-center justify-center rounded-full bg-[#1DA1F2] text-white hover:opacity-90 transition-opacity"><Twitter className="w-5 h-5" /></button>
-                      <button className="w-9 h-9 flex items-center justify-center rounded-full bg-[#0A66C2] text-white hover:opacity-90 transition-opacity"><Linkedin className="w-5 h-5" /></button>
-                       <button className="w-9 h-9 flex items-center justify-center rounded-full bg-gray-800 text-white hover:opacity-90 transition-opacity"><Mail className="w-5 h-5" /></button>
+                        <ShareButtons title={news.title} size="lg" />
                   </div>
               </div>
         </div>

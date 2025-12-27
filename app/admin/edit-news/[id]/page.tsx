@@ -20,6 +20,7 @@ export default function EditNews({ params }: { params: Promise<{ id: string }> }
     isBreaking: false,
     published: false,
     tags: "",
+    gallery: [] as string[],
   });
 
   const [loading, setLoading] = useState(true);
@@ -27,13 +28,17 @@ export default function EditNews({ params }: { params: Promise<{ id: string }> }
   const [error, setError] = useState("");
 
   const categories = [
-    { label: "World (বিশ্ব)", value: "বিশ্ব", color: "bg-purple-500" },
+    { label: "Cover (প্রচ্ছদ)", value: "প্রচ্ছদ", color: "bg-gray-500" },
+    { label: "Country (দেশের খবর)", value: "দেশের খবর", color: "bg-teal-500" },
     { label: "Politics (রাজনীতি)", value: "রাজনীতি", color: "bg-red-500" },
     { label: "Sports (খেলাধুলা)", value: "খেলাধুলা", color: "bg-green-500" },
     { label: "Technology (প্রযুক্তি)", value: "প্রযুক্তি", color: "bg-blue-500" },
     { label: "Business (বাণিজ্য)", value: "বাণিজ্য", color: "bg-orange-500" },
     { label: "Entertainment (বিনোদন)", value: "বিনোদন", color: "bg-pink-500" },
-    { label: "Cover (প্রচ্ছদ)", value: "প্রচ্ছদ", color: "bg-gray-500" },
+    { label: "Health (স্বাস্থ্য)", value: "স্বাস্থ্য", color: "bg-rose-400" },
+    { label: "Education (শিক্ষা)", value: "শিক্ষা", color: "bg-yellow-500" },
+    { label: "Crime (অপরাধ)", value: "অপরাধ", color: "bg-slate-700" },
+    { label: "World (বিশ্ব)", value: "বিশ্ব", color: "bg-purple-500" },
   ];
 
   const slugify = (text: string) => {
@@ -61,7 +66,8 @@ export default function EditNews({ params }: { params: Promise<{ id: string }> }
 
     const fetchNews = async () => {
       try {
-        const res = await fetch(`/api/news/${resolvedParams.id}`);
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "";
+        const res = await fetch(`${apiUrl}/api/news/${resolvedParams.id}`);
         if (!res.ok) throw new Error("Failed to fetch news");
         const data = await res.json();
         
@@ -75,7 +81,9 @@ export default function EditNews({ params }: { params: Promise<{ id: string }> }
             image: data.image || "",
             isBreaking: data.isBreaking || false,
             published: data.published !== undefined ? data.published : true, // Default to true if missing
+
             tags: Array.isArray(data.tags) ? data.tags.join(", ") : "",
+            gallery: Array.isArray(data.gallery) ? data.gallery : [],
         });
       } catch (err) {
         setError("Failed to load news");
@@ -101,6 +109,25 @@ export default function EditNews({ params }: { params: Promise<{ id: string }> }
     setFormData((prev) => ({ ...prev, slug: slugify(e.target.value) }));
   };
 
+  const handleGalleryChange = (index: number, value: string) => {
+    setFormData((prev) => {
+      const newGallery = [...prev.gallery];
+      newGallery[index] = value;
+      return { ...prev, gallery: newGallery };
+    });
+  };
+
+  const addGalleryField = () => {
+    setFormData((prev) => ({ ...prev, gallery: [...prev.gallery, ""] }));
+  };
+
+  const removeGalleryField = (index: number) => {
+    setFormData((prev) => {
+      const newGallery = prev.gallery.filter((_, i) => i !== index);
+      return { ...prev, gallery: newGallery };
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!resolvedParams?.id) return;
@@ -110,7 +137,8 @@ export default function EditNews({ params }: { params: Promise<{ id: string }> }
     const categoryColor = selectedCat ? selectedCat.color : "bg-gray-500";
 
     try {
-      const res = await fetch(`/api/news/${resolvedParams.id}`, {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "";
+      const res = await fetch(`${apiUrl}/api/news/${resolvedParams.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -119,6 +147,7 @@ export default function EditNews({ params }: { params: Promise<{ id: string }> }
              ...formData,
              categoryColor,
              tags: formData.tags.split(",").map((t) => t.trim()).filter((t) => t),
+             gallery: formData.gallery.filter(url => url.trim() !== ""),
         }),
       });
 
@@ -316,6 +345,40 @@ export default function EditNews({ params }: { params: Promise<{ id: string }> }
                 placeholder="Enter image URL..."
                 className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm"
                 />
+            </div>
+
+            {/* Gallery Images */}
+             <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                <h3 className="text-sm font-bold text-gray-900 mb-4 font-serif">Image Gallery</h3>
+                <div className="space-y-3">
+                  {formData.gallery.map((url, index) => (
+                    <div key={index} className="flex gap-2">
+                      <input
+                        type="text"
+                        value={url}
+                        onChange={(e) => handleGalleryChange(index, e.target.value)}
+                        placeholder={`Image URL ${index + 1}`}
+                        className="flex-1 px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm"
+                      />
+                       <button
+                        type="button"
+                        onClick={() => removeGalleryField(index)}
+                        className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                        title="Remove Image"
+                      >
+                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                      </button>
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={addGalleryField}
+                    className="w-full py-2 border-2 border-dashed border-gray-300 rounded-lg text-gray-500 hover:border-blue-500 hover:text-blue-500 transition-colors text-sm font-medium flex items-center justify-center gap-2"
+                  >
+                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path></svg>
+                    Add Gallery Image
+                  </button>
+                </div>
             </div>
 
             {/* Tags */}

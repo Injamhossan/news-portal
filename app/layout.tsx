@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import {} from "next/font/google"; // Importing Bengali fonts
+import { GoogleAnalytics } from "@next/third-parties/google";
 import "@/style/globals.css";
+
 
 const banglaFont = localFont({
   src: "./fonts/AnekBangla.ttf",
@@ -25,9 +26,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="bn">
-<body className={`${banglaFont.variable} antialiased`}>
+<body className={`${banglaFont.className} ${banglaFont.variable} antialiased`}>
         {children}
       </body>
+      <GoogleAnalytics gaId="GTM-W3LBTTW3"/>
     </html>
   );
 }

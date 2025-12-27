@@ -14,6 +14,7 @@ export interface INews extends Document {
   isBreaking: boolean;
   published: boolean;
   tags: string[];
+  gallery?: string[];
 }
 
 const NewsSchema: Schema = new Schema(
@@ -30,6 +31,7 @@ const NewsSchema: Schema = new Schema(
     isBreaking: { type: Boolean, default: false },
     published: { type: Boolean, default: true },
     tags: { type: [String], default: [] },
+    gallery: { type: [String], default: [] },
   },
   {
     timestamps: true,

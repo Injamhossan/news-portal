@@ -2,12 +2,16 @@ import Link from "next/link";
 
 const categories = [
   "প্রচ্ছদ",
+  "দেশের খবর",
   "রাজনীতি",
   "খেলাধুলা",
   "প্রযুক্তি",
   "বিশ্ব",
   "বাণিজ্য",
   "বিনোদন",
+  "স্বাস্থ্য",
+  "শিক্ষা",
+  "অপরাধ",
 ];
 
 export default function Navbar() {

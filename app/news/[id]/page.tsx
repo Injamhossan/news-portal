@@ -4,7 +4,18 @@ import Footer from "@/components/Footer";
 import connectDB from "@/lib/db";
 import News from "@/models/News";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
+import { 
+  User, 
+  Clock, 
+  Facebook, 
+  Twitter, 
+  Linkedin, 
+  Mail, 
+  Link as LinkIcon, 
+  ArrowLeft 
+} from "lucide-react";
 
 interface NewsDetailsPageProps {
   params: Promise<{ id: string }>;
@@ -21,6 +32,24 @@ async function getNewsDetail(id: string) {
   }
 }
 
+async function getRelatedNews(category: string, currentId: string) {
+  try {
+    await connectDB();
+    // Fetch 3 related news from same category, excluding current one
+    const related = await News.find({ 
+        category: category, 
+        _id: { $ne: currentId } 
+    })
+    .sort({ createdAt: -1 })
+    .limit(3);
+    
+    return JSON.parse(JSON.stringify(related));
+  } catch (error) {
+    console.error("Error fetching related news:", error);
+    return [];
+  }
+}
+
 export default async function NewsDetailsPage({ params }: NewsDetailsPageProps) {
   const resolvedParams = await params;
   const { id } = resolvedParams;
@@ -30,52 +59,136 @@ export default async function NewsDetailsPage({ params }: NewsDetailsPageProps) 
     notFound();
   }
 
+  const relatedNews = await getRelatedNews(news.category, id);
+
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900">
       <Header />
       <Navbar />
 
-      <main className="container mx-auto px-4 py-8 max-w-4xl">
-        <div className="mb-6">
-           <span className={`inline-block px-3 py-1 text-white text-sm font-bold rounded mb-4 ${news.categoryColor || "bg-gray-500"}`}>
+      <main className="container mx-auto px-4 py-8 max-w-5xl">
+        {/* Back Button */}
+        <div className="mb-8">
+            <Link href="/" className="inline-flex items-center text-gray-500 hover:text-[#D32F2F] transition-colors text-sm font-medium gap-2">
+                <ArrowLeft className="w-4 h-4" />
+                <span>Back to News</span>
+            </Link>
+        </div>
+
+        {/* Article Header */}
+        <div className="mb-8 max-w-4xl">
+           <span className={`inline-block px-3 py-1 text-white text-xs font-bold uppercase tracking-wider rounded mb-4 ${news.categoryColor || "bg-[#D32F2F]"}`}>
             {news.category}
           </span>
-          <h1 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4 leading-tight font-serif">
+          <h1 className="text-3xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight font-serif">
             {news.title}
           </h1>
-          <div className="flex items-center text-gray-500 text-sm gap-4 border-b border-gray-100 pb-6 mb-6">
-            <span className="font-bold text-[#D32F2F]">{news.author}</span>
-            <span>•</span>
-            <span>{news.date}</span>
+          
+          <p className="text-xl text-gray-600 mb-6 leading-relaxed">
+             {/* Using excerpt as subtitle/intro */}
+            {news.excerpt}
+          </p>
+
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-y border-gray-100 py-4">
+              <div className="flex items-center gap-6 text-sm text-gray-500">
+                <div className="flex items-center gap-2">
+                    <User className="w-4 h-4 text-[#D32F2F]" />
+                    <span className="font-medium text-gray-900">{news.author}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                    <Clock className="w-4 h-4 text-[#D32F2F]" />
+                    <span>{news.date}</span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2">
+                  <span className="text-sm text-gray-400 mr-2">Share:</span>
+                  <div className="flex gap-2">
+                      <button className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-blue-600 hover:text-white transition-colors text-gray-600"><Facebook className="w-4 h-4" /></button>
+                      <button className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-sky-500 hover:text-white transition-colors text-gray-600"><Twitter className="w-4 h-4" /></button>
+                      <button className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-blue-700 hover:text-white transition-colors text-gray-600"><Linkedin className="w-4 h-4" /></button>
+                      <button className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-800 hover:text-white transition-colors text-gray-600"><Mail className="w-4 h-4" /></button>
+                      <button className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-[#D32F2F] hover:text-white transition-colors text-gray-600"><LinkIcon className="w-4 h-4" /></button>
+                  </div>
+              </div>
           </div>
         </div>
 
-        <div className="mb-8 relative w-full h-[300px] md:h-[500px] rounded-xl overflow-hidden bg-gray-100">
+        {/* Featured Image */}
+        <div className="mb-10 w-full relative aspect-[16/9] rounded-2xl overflow-hidden bg-gray-100 shadow-sm">
             <Image 
-                src={news.image || "https://placehold.co/800x600/png"} 
+                src={news.image || "https://placehold.co/1200x800/png"} 
                 alt={news.title} 
                 fill 
                 className="object-cover"
+                priority
             />
         </div>
 
-        <div className="prose prose-lg max-w-none text-gray-800 leading-relaxed space-y-6">
-             {/* Render excerpt as first paragraph for now */}
-            <p className="font-medium text-xl text-gray-700">
-                {news.excerpt}
-            </p>
-            {/* 
-               In a real app, content would be rich text. 
-               Here we are simulating body content since our model only has excerpt for now.
-               We can just repeat the excerpt or display a placeholder text.
-            */}
-             <p>
-                বিস্তারিত খবর শীঘ্রই আসছে... (এটি একটি ডেমো কন্টেন্ট। ডাটাবেসে 'fullContent' ফিল্ড যোগ করে এখানে পূর্ণাঙ্গ সংবাদ প্রদর্শন করা যেতে পারে।)
-            </p>
-            <p>
-                লরেম ইপসাম ডলর সিট আমেত, কনসেকটেচার এডিপিস্কিং এলিট। নাল্লাম অ্যাকিউমসান লরেম ইন দুই টিসিডুন্ট কনডিমেন্টাম।
-            </p>
+        {/* Article Body */}
+        <div className="max-w-4xl">
+            <div 
+                className="prose prose-lg prose-red max-w-none text-gray-800 leading-relaxed font-serif"
+                dangerouslySetInnerHTML={{ __html: news.content || `<p>${news.excerpt}</p>` }}
+            />
+
+            {/* Tags */}
+            <div className="mt-10 py-6 border-t border-gray-100">
+                <div className="flex flex-wrap gap-2">
+                    {news.tags && news.tags.length > 0 ? (
+                        news.tags.map((tag: string, i: number) => (
+                        <span key={i} className="px-3 py-1 bg-gray-50 hover:bg-gray-100 text-gray-600 text-sm rounded-full transition-colors cursor-pointer">
+                            #{tag.replace(/^#/, '')}
+                        </span>
+                        ))
+                    ) : (
+                        ['#news', `#${news.category}`].map((tag, i) => (
+                             <span key={i} className="px-3 py-1 bg-gray-50 hover:bg-gray-100 text-gray-600 text-sm rounded-full transition-colors cursor-pointer">
+                                {tag}
+                            </span>
+                        ))
+                    )}
+                </div>
+            </div>
+
+             {/* Bottom Share */}
+             <div className="flex items-center gap-4 py-6 border-b border-gray-100">
+                  <span className="font-bold text-gray-900">Share:</span>
+                  <div className="flex gap-2">
+                      <button className="w-9 h-9 flex items-center justify-center rounded-full bg-[#1877F2] text-white hover:opacity-90 transition-opacity"><Facebook className="w-5 h-5" /></button>
+                      <button className="w-9 h-9 flex items-center justify-center rounded-full bg-[#1DA1F2] text-white hover:opacity-90 transition-opacity"><Twitter className="w-5 h-5" /></button>
+                      <button className="w-9 h-9 flex items-center justify-center rounded-full bg-[#0A66C2] text-white hover:opacity-90 transition-opacity"><Linkedin className="w-5 h-5" /></button>
+                       <button className="w-9 h-9 flex items-center justify-center rounded-full bg-gray-800 text-white hover:opacity-90 transition-opacity"><Mail className="w-5 h-5" /></button>
+                  </div>
+              </div>
         </div>
+
+        {/* Related News */}
+        {relatedNews.length > 0 && (
+            <div className="mt-16 pt-10 border-t border-gray-200">
+                <h3 className="text-2xl font-bold text-gray-900 mb-8 font-serif border-l-4 border-[#D32F2F] pl-3">
+                    সম্পর্কিত খবর (Related News)
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    {relatedNews.map((item: any) => (
+                        <Link href={`/news/${item._id}`} key={item._id} className="group cursor-pointer">
+                            <div className="relative aspect-[16/10] bg-gray-200 rounded-lg overflow-hidden mb-4">
+                                <Image src={item.image || "https://placehold.co/600x400"} alt={item.title} fill className="object-cover group-hover:scale-105 transition-transform duration-300" />
+                            </div>
+                            <div className="flex gap-2 text-xs text-gray-500 mb-2">
+                                <span className="text-[#D32F2F] font-bold uppercase">{item.category}</span>
+                                <span>•</span>
+                                <span>{item.date}</span>
+                            </div>
+                            <h4 className="text-lg font-bold text-gray-900 group-hover:text-[#D32F2F] transition-colors leading-snug font-serif">
+                                {item.title}
+                            </h4>
+                        </Link>
+                    ))}
+                </div>
+            </div>
+        )}
+
       </main>
 
       <Footer />

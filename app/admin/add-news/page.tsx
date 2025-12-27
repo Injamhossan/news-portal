@@ -13,10 +13,15 @@ export default function AddNews() {
     excerpt: "",
     author: "অ্যাডমিন",
     image: "",
+    isBreaking: false,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value, type } = e.target;
+    setFormData(prev => ({
+        ...prev,
+        [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -148,6 +153,20 @@ export default function AddNews() {
               placeholder="https://example.com/image.jpg"
             />
             <p className="text-xs text-gray-500 mt-1">আপাতত ছবির ডিরেক্ট লিঙ্ক ব্যবহার করুন (যেমন imgur বা অন্য কোনো হোস্ট থেকে)</p>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              name="isBreaking"
+              id="isBreaking"
+              checked={formData.isBreaking}
+              onChange={handleChange}
+              className="w-5 h-5 text-[#D32F2F] border-gray-300 rounded focus:ring-[#D32F2F]"
+            />
+            <label htmlFor="isBreaking" className="text-sm font-medium text-gray-700">
+              এটি কি ব্রেকিং নিউজ?
+            </label>
           </div>
 
           <button

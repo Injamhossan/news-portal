@@ -9,6 +9,7 @@ export interface INews extends Document {
   date: string;
   image?: string;
   createdAt: Date;
+  isBreaking: boolean;
 }
 
 const NewsSchema: Schema = new Schema(
@@ -20,6 +21,7 @@ const NewsSchema: Schema = new Schema(
     author: { type: String, required: true },
     date: { type: String, required: true },
     image: { type: String, default: "https://placehold.co/600x400/png" },
+    isBreaking: { type: Boolean, default: false },
   },
   {
     timestamps: true,

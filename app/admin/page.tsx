@@ -11,14 +11,28 @@ export default function AdminLogin() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simple hardcoded check for demonstration
-    if (email === "admin@example.com" && password === "admin123") {
-      // In a real app, you'd verify with API and set a secure HttpOnly cookie
-      localStorage.setItem("admin_token", "secret_token"); // Simple client-side auth
-      document.cookie = "admin_token=secret_token; path=/"; // Allow middleware to read if used
-      router.push("/admin/dashboard");
-    } else {
-      setError("ভুল ইমেইল বা পাসওয়ার্ড");
+    setError("");
+
+    try {
+      const res = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        localStorage.setItem("admin_token", data.token);
+        document.cookie = `admin_token=${data.token}; path=/`; 
+        router.push("/admin/dashboard");
+      } else {
+        setError(data.message || "লগইন ব্যর্থ হয়েছে");
+      }
+    } catch (err) {
+      setError("সার্ভার সমস্যা। অনুগ্রহ করে পরে আবার চেষ্টা করুন।");
     }
   };
 

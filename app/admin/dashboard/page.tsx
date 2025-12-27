@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import Logo from "@/assets/Logo-01.png"
 
 interface NewsItem {
   _id: string;
@@ -67,8 +68,8 @@ export default function AdminDashboard() {
       <nav className="bg-white shadow-sm border-b border-gray-200">
         <div className="container mx-auto px-4 h-16 flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <div className="bg-[#D32F2F] text-white w-8 h-8 flex items-center justify-center font-bold text-lg rounded">
-              A
+            <div className="text-white w-8 h-8 flex items-center justify-center font-bold text-lg rounded">
+              <Image src={Logo} alt="alt" />
             </div>
             <span className="font-bold text-xl">অ্যাডমিন ড্যাশবোর্ড</span>
           </div>
@@ -126,12 +127,20 @@ export default function AdminDashboard() {
                       {item.date}
                     </td>
                     <td className="px-6 py-4 text-right">
-                      <button
-                        onClick={() => deleteNews(item._id)}
-                        className="text-red-500 hover:text-red-700 text-sm font-medium"
-                      >
-                         ডিলিট
-                      </button>
+                      <div className="flex justify-end gap-3">
+                        <Link
+                          href={`/admin/edit-news/${item._id}`}
+                          className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                        >
+                          এডিট
+                        </Link>
+                        <button
+                          onClick={() => deleteNews(item._id)}
+                          className="text-red-500 hover:text-red-700 text-sm font-medium"
+                        >
+                          ডিলিট
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}

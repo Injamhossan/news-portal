@@ -1,12 +1,28 @@
-export default function Sidebar() {
-  const categories = [
-    { name: "রাজনীতি", count: 2 },
-    { name: "খেলাধুলা", count: 1 },
-    { name: "প্রযুক্তি", count: 2 },
-    { name: "বিশ্ব", count: 1 },
-    { name: "বাণিজ্য", count: 1 },
-    { name: "বিনোদন", count: 1 },
-  ];
+import connectDB from "@/lib/db";
+import News from "@/models/News";
+
+async function getCategoryCounts() {
+    try {
+        await connectDB();
+        const counts = await News.aggregate([
+            { $group: { _id: "$category", count: { $sum: 1 } } }
+        ]);
+        
+        // Define all possible categories to ensure they show up even with 0 count
+        const allCategories = ["জাতীয়", "রাজনীতি", "খেলা", "বিনোদন", "আন্তর্জাতিক", "প্রযুক্তি", "শিক্ষা", "বাণিজ্য"];
+        
+        return allCategories.map(cat => {
+            const found = counts.find(c => c._id === cat);
+            return { name: cat, count: found ? found.count : 0 };
+        });
+    } catch (error) {
+        console.error("Error fetching category counts:", error);
+        return [];
+    }
+}
+
+export default async function Sidebar() {
+  const categories = await getCategoryCounts();
 
   return (
     <aside className="space-y-8 font-sans">

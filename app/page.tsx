@@ -7,6 +7,8 @@ import Footer from "@/components/Footer";
 import connectDB from "@/lib/db";
 import News from "@/models/News";
 
+import BreakingNews from "@/components/BreakingNews";
+
 async function getNews() {
   try {
     await connectDB();
@@ -26,6 +28,9 @@ export default async function Home() {
     <div className="min-h-screen bg-white font-sans text-gray-900">
       <Header />
       <Navbar />
+
+      {/* Breaking News Section */}
+      <BreakingNews news={newsVideoData} />
 
       <main className="container mx-auto px-4 py-8">
         <HeroSection news={newsVideoData} />

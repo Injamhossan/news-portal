@@ -31,7 +31,7 @@ export default function Header() {
         <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="bg-[#D32F2F] text-white w-10 h-10 flex items-center justify-center font-bold text-xl rounded">
+            <div className="w-10 h-10 flex items-center justify-center font-bold text-xl rounded">
               <Image src={Logo} alt="alt" />
             </div>
             <div className="flex flex-col">

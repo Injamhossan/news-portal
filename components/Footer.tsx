@@ -1,4 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
+import FotLogo from '@/assets/Logo-01.png';
 
 export default function Footer() {
   return (
@@ -7,19 +9,19 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           {/* Brand Column */}
           <div className="col-span-1">
-            <Link href="/" className="flex items-center gap-2 mb-6 group">
-              <div className="bg-[#D32F2F] text-white w-10 h-10 flex items-center justify-center font-bold text-xl rounded">
-                দ
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xl font-bold text-white group-hover:text-[#D32F2F] transition-colors">
-                  দৈনিক সর্বশেষ
-                </span>
-                <span className="text-[10px] text-gray-400 tracking-wider">
-                  সত্যের সন্ধানে সর্বদা
-                </span>
-              </div>
-            </Link>
+            <Link href="/" className="flex items-center gap-2 group">
+            <div className="w-10 h-10 flex items-center justify-center font-bold text-xl rounded">
+              <Image src={FotLogo} alt="alt" />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-2xl font-bold text-white-900 group-hover:text-[#D32F2F] transition-colors">
+                দৈনিক সর্বশেষ সংবাদ 
+              </span>
+              <span className="text-[10px] text-white-500 tracking-wider">
+                দেশ ও জনগনের কথা বলে
+              </span>
+            </div>
+          </Link>
             <p className="text-sm text-gray-400 leading-relaxed mb-6">
               আপনার বিশ্বস্ত খবরের সঙ্গী। আমরা পৌঁছে দিই রাজনীতি, অর্থনীতি, খেলাধুলা এবং বিনোদনের তাজা খবর, সবার আগে।
             </p>

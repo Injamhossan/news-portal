@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { GoogleTagManager } from "@next/third-parties/google";
 import "@/style/globals.css";
 
 
@@ -29,7 +30,8 @@ export default function RootLayout({
 <body className={`${banglaFont.className} ${banglaFont.variable} antialiased`}>
         {children}
       </body>
-      <GoogleAnalytics gaId="GTM-W3LBTTW3"/>
+      <GoogleAnalytics gaId="G-LDC5ZD9S53"/>
+      <GoogleTagManager gtmId="GTM-W3LBTTW3"/>
     </html>
   );
 }

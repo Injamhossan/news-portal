@@ -8,6 +8,23 @@ import News from "@/models/News";
 import Logo from "@/assets/Logo-01.png";
 import PrintActionButtons from "@/components/PrintActionButtons";
 
+export async function generateStaticParams() {
+  try {
+    await connectDB();
+    // Fetch only IDs for print pages, maybe slugs too if supported
+    const news = await News.find({}, "_id slug");
+    
+     const paths = [];
+    for (const item of news) {
+        if (item._id) paths.push({ id: item._id.toString() });
+        if (item.slug) paths.push({ id: item.slug });
+    }
+    return paths;
+  } catch (e) {
+      return [];
+  }
+}
+
 interface PrintPageProps {
   params: Promise<{ id: string }>;
 }
@@ -101,7 +118,7 @@ export default async function NewsPrintPage({ params }: PrintPageProps) {
 
             {/* Text Content */}
             <div className="prose prose-lg max-w-none text-justify text-gray-800 leading-relaxed print:text-sm">
-                <div dangerouslySetInnerHTML={{ __html: news.content }} />
+                <div dangerouslySetInnerHTML={{ __html: news.content || "" }} />
             </div>
 
              {/* Author and extra info */}

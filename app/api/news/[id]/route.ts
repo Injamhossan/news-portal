@@ -79,3 +79,15 @@ export async function GET(
     );
   }
 }
+
+export async function generateStaticParams() {
+  try {
+    await connectDB();
+    const news = await News.find({}, "_id");
+    return news.map((item) => ({
+      id: item._id.toString(),
+    }));
+  } catch (e) {
+    return [];
+  }
+}

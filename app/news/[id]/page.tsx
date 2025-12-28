@@ -21,6 +21,24 @@ interface NewsDetailsPageProps {
   params: Promise<{ id: string }>;
 }
 
+export async function generateStaticParams() {
+  try {
+    await connectDB();
+    const news = await News.find({}, "_id slug");
+    
+    // Generate params for both ID and Slug
+    const paths = [];
+    for (const item of news) {
+        if (item._id) paths.push({ id: item._id.toString() });
+        if (item.slug) paths.push({ id: item.slug });
+    }
+    return paths;
+  } catch (e) {
+      console.error("Error generating static params", e);
+      return [];
+  }
+}
+
 async function getNewsDetail(id: string) {
   try {
     await connectDB();

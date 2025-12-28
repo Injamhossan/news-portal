@@ -9,6 +9,21 @@ interface CategoryPageProps {
   params: Promise<{ category: string }>;
 }
 
+export async function generateStaticParams() {
+   try {
+    await connectDB();
+    // Get all distinct categories
+    const categories = await News.distinct("category");
+    
+    return categories.map((category) => ({
+      category: encodeURIComponent(category),
+    }));
+  } catch (e) {
+      console.error("Error generating static params", e);
+      return [];
+  }
+}
+
 async function getNewsByCategory(category: string) {
   try {
     await connectDB();

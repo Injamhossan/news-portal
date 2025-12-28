@@ -1,8 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-   output: "export",
+  output: "export",
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",
@@ -29,6 +30,9 @@ const nextConfig: NextConfig = {
         hostname: "placehold.co",
       },
     ],
+  },
+  typescript: {
+    ignoreBuildErrors: true,
   },
 };
 

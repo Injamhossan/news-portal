@@ -1,13 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Eye, Save } from "lucide-react";
 
-export default function EditNews({ params }: { params: Promise<{ id: string }> }) {
+function EditNewsContent() {
   const router = useRouter();
-  const [resolvedParams, setResolvedParams] = useState<{ id: string } | null>(null);
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
 
   const [formData, setFormData] = useState({
     title: "",
@@ -51,11 +52,10 @@ export default function EditNews({ params }: { params: Promise<{ id: string }> }
   };
 
   useEffect(() => {
-    params.then(setResolvedParams);
-  }, [params]);
-
-  useEffect(() => {
-    if (!resolvedParams?.id) return;
+    if (!id) {
+        setLoading(false);
+        return;
+    }
 
     // Auth check (basic)
     const token = localStorage.getItem("admin_token");
@@ -67,7 +67,7 @@ export default function EditNews({ params }: { params: Promise<{ id: string }> }
     const fetchNews = async () => {
       try {
         const apiUrl = process.env.NEXT_PUBLIC_API_URL || "";
-        const res = await fetch(`${apiUrl}/api/news/${resolvedParams.id}`);
+        const res = await fetch(`${apiUrl}/api/news/${id}`);
         if (!res.ok) throw new Error("Failed to fetch news");
         const data = await res.json();
         
@@ -93,7 +93,7 @@ export default function EditNews({ params }: { params: Promise<{ id: string }> }
     };
 
     fetchNews();
-  }, [resolvedParams, router]);
+  }, [id, router]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -130,7 +130,7 @@ export default function EditNews({ params }: { params: Promise<{ id: string }> }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!resolvedParams?.id) return;
+    if (!id) return;
     setSaving(true);
 
     const selectedCat = categories.find((c) => c.value === formData.category);
@@ -138,7 +138,7 @@ export default function EditNews({ params }: { params: Promise<{ id: string }> }
 
     try {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || "";
-      const res = await fetch(`${apiUrl}/api/news/${resolvedParams.id}`, {
+      const res = await fetch(`${apiUrl}/api/news/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -166,6 +166,7 @@ export default function EditNews({ params }: { params: Promise<{ id: string }> }
 
   if (loading) return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
   if (error) return <div className="flex justify-center items-center min-h-screen text-red-500">{error}</div>;
+  if (!id) return <div className="flex justify-center items-center min-h-screen text-red-500">No ID provided</div>;
 
   return (
     <div className="min-h-screen bg-gray-50 font-anek text-gray-900 pb-20">
@@ -412,4 +413,12 @@ export default function EditNews({ params }: { params: Promise<{ id: string }> }
       </div>
     </div>
   );
+}
+
+export default function EditNewsPage() {
+    return (
+        <Suspense fallback={<div className="flex justify-center items-center min-h-screen">Loading...</div>}>
+            <EditNewsContent />
+        </Suspense>
+    );
 }

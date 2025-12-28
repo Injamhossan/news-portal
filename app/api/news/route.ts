@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import connectDB from "@/lib/db";
 import News from "@/models/News";
 
+export const dynamic = "force-static";
+
 export async function GET() {
   try {
     await connectDB();

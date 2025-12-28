@@ -233,7 +233,7 @@ export default function AdminDashboard() {
                     <td className="px-6 py-4 text-right">
                         <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                         <Link
-                            href={`/admin/edit-news/${item._id}`}
+                            href={`/admin/edit-news?id=${item._id}`}
                             className="p-1.5 hover:bg-gray-100 rounded text-gray-500 hover:text-blue-600 transition-colors"
                             title="Edit"
                         >

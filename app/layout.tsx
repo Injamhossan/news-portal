@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { GoogleTagManager } from "@next/third-parties/google";
+import Script from "next/script";
 import "@/style/globals.css";
 
 
@@ -32,6 +33,12 @@ export default function RootLayout({
       </body>
         <GoogleAnalytics gaId="G-LDC5ZD9S53"/>
         <GoogleTagManager gtmId="GTM-WDNCFQS5"/>
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5098961807637378"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
     </html>
   );
 }

@@ -3,7 +3,7 @@ import { AlertTriangle, Home } from "lucide-react";
 
 export default function NotFound() {
   return (
-    <div className="min-h-[70vh] flex flex-col items-center justify-center p-4 text-center font-anek">
+    <div className="min-h-[70vh] flex flex-col items-center justify-center p-4 text-center font-anek bg-white">
       <div className="bg-red-50 p-6 rounded-full mb-6 animate-pulse">
         <AlertTriangle className="w-16 h-16 text-[#D32F2F]" />
       </div>

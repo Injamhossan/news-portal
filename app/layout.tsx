@@ -27,11 +27,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="bn" suppressHydrationWarning>
-      <body className={`${banglaFont.variable} font-anek antialiased`}>
+      <body className={`${banglaFont.variable} font-anek antialiased`} suppressHydrationWarning={true}>
         {children}
+      </body>
         <GoogleAnalytics gaId="G-LDC5ZD9S53"/>
         <GoogleTagManager gtmId="GTM-WDNCFQS5"/>
-      </body>
     </html>
   );
 }

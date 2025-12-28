@@ -4,7 +4,7 @@ import FotLogo from '@/assets/Logo-01.png';
 
 export default function Footer() {
   return (
-    <footer className="bg-[#0B1120] text-gray-300 pt-16 pb-8 mt-20 font-anek">
+    <footer className="bg-[#0B1120] text-gray-300 pt-10 pb-8 mt-10 font-anek">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           {/* Brand Column */}
@@ -53,11 +53,31 @@ export default function Footer() {
           </div>
 
           {/* Connect Column */}
-          <div>
-            <h4 className="font-bold text-white text-lg mb-6">যুক্ত থাকুন</h4>
-            <div className="flex gap-4 mb-6">
+          {/* Connect Column */}
+          <div className="flex flex-col gap-6">
+             {/* Newsletter Widget */}
+            <div className="bg-[#111827] rounded-xl shadow-lg p-6 text-white relative overflow-hidden border border-gray-800">
+              <div className="relative z-10">
+                  <h3 className="text-xl font-bold mb-2">যুক্ত থাকুন</h3>
+                  <p className="text-gray-400 text-xs mb-6">
+                  প্রতিদিন সব খবর পেতে আপনার ইমেইল দিন
+                  </p>
+                  <div className="flex flex-col gap-3">
+                  <input
+                      type="email"
+                      placeholder="আপনার ইমেইল লিখুন"
+                      className="w-full bg-[#1F2937] border border-[#374151] rounded px-4 py-2.5 text-sm focus:outline-none focus:border-[#D32F2F] transition-colors"
+                  />
+                  <button className="w-full bg-[#D32F2F] hover:bg-[#B71C1C] text-white font-bold py-2.5 rounded text-sm transition-colors uppercase tracking-wide">
+                      সাবস্ক্রাইব
+                  </button>
+                  </div>
+              </div>
+            </div>
+
+            <div className="flex gap-4 justify-center md:justify-start">
               {/* Facebook */}
-              <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-[#1877F2] hover:text-white transition-all transform hover:-translate-y-1">
+              <a href="https://www.facebook.com/profile.php?id=61581782068911" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-[#1877F2] hover:text-white transition-all transform hover:-translate-y-1">
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fillRule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clipRule="evenodd" /></svg>
               </a>
               {/* Twitter */}
@@ -74,7 +94,7 @@ export default function Footer() {
               </a>
             </div>
             
-             <a href="mailto:contact@newsportal.com" className="flex items-center gap-2 hover:text-white transition-colors group">
+             <a href="mailto:contact@newsportal.com" className="flex items-center gap-2 hover:text-white transition-colors group justify-center md:justify-start">
               <svg className="w-5 h-5 text-gray-500 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
               <span>contact@doiniksorboshesh.com</span>
              </a>
@@ -82,7 +102,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
-            <p>&copy; ২০২৫ দৈনিক সর্বশেষ। সর্বস্বত্ব সংরক্ষিত।</p>
+            <p>&copy; ২০২৫ দৈনিক সর্বশেষ সংবাদ। সর্বস্বত্ব সংরক্ষিত।</p>
             <div className="flex gap-4 mt-4 md:mt-0">
                <a href="#" className="hover:text-gray-300">Terms</a>
                <a href="#" className="hover:text-gray-300">Privacy</a>

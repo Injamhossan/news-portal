@@ -11,16 +11,16 @@ export default function HeroSection({ news = [] }: HeroSectionProps) {
 
   if (!mainNews) {
     return (
-      <section className="font-anek mb-12 text-center py-10 bg-gray-50 rounded-xl">
+      <section className="font-anek mb-8 md:mb-12 text-center py-10 bg-gray-50 rounded-xl">
         <p className="text-gray-500">খবর লোড হচ্ছে অথবা কোনো খবর নেই...</p>
       </section>
     );
   }
 
   return (
-    <section className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12 font-anek">
+    <section className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8 mb-8 md:mb-12 font-anek">
       {/* Main Hero Article */}
-      <div className="lg:col-span-2 relative group overflow-hidden rounded-xl shadow-sm min-h-[400px]">
+      <Link href={`/news/${mainNews.slug || mainNews._id}`} className="lg:col-span-2 relative group overflow-hidden rounded-xl shadow-sm h-[300px] sm:h-[400px] md:h-[500px] block">
         {/* Dynamic Image */}
         <div className="absolute inset-0 bg-gray-300">
           <Image
@@ -32,31 +32,31 @@ export default function HeroSection({ news = [] }: HeroSectionProps) {
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
         </div>
 
-        <div className="absolute bottom-0 left-0 p-8 w-full">
-          <span className={`inline-block px-3 py-1 text-white text-xs font-bold rounded mb-3 ${mainNews.categoryColor || "bg-[#7C3AED]"}`}>
+        <div className="absolute bottom-0 left-0 p-4 sm:p-6 md:p-8 w-full">
+          <span className={`inline-block px-2 sm:px-3 py-1 text-white text-[10px] sm:text-xs font-bold rounded mb-2 sm:mb-3 ${mainNews.categoryColor || "bg-[#7C3AED]"}`}>
             {mainNews.category}
           </span>
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-3 leading-tight">
+          <h1 className="text-xl sm:text-3xl md:text-4xl font-bold text-white mb-2 sm:mb-3 leading-tight line-clamp-2 md:line-clamp-3">
             {mainNews.title}
           </h1>
-          <p className="text-gray-200 text-sm md:text-base mb-4 line-clamp-2">
+          <p className="text-gray-200 text-xs sm:text-sm md:text-base mb-3 sm:mb-4 line-clamp-2 hidden sm:block">
             {mainNews.excerpt}
           </p>
-          <div className="flex items-center text-gray-300 text-xs gap-4">
+          <div className="flex items-center text-gray-300 text-[10px] sm:text-xs gap-3 sm:gap-4">
             <span className="font-medium">{mainNews.author}</span>
             <span>•</span>
             <span>{mainNews.date}</span>
           </div>
         </div>
-      </div>
+      </Link>
 
       {/* Top Stories List */}
-      <div className="bg-white rounded-xl border border-gray-100 p-6 shadow-sm">
-        <div className="flex flex-col gap-6">
+      <div className="bg-white rounded-xl border border-gray-100 p-4 sm:p-6 shadow-sm h-full overflow-y-auto max-h-[400px] lg:max-h-full">
+        <div className="flex flex-col gap-4 sm:gap-6">
           {sideNews.length > 0 ? (
             sideNews.map((item, idx) => (
-              <div key={idx} className="flex gap-4 group cursor-pointer border-b border-gray-50 pb-4 last:border-0 last:pb-0">
-                <span className="flex-shrink-0 w-8 h-8 rounded-full bg-gray-100 text-gray-500 font-bold flex items-center justify-center text-sm group-hover:bg-[#D32F2F] group-hover:text-white transition-colors">
+              <Link key={idx} href={`/news/${item.slug || item._id}`} className="flex gap-3 sm:gap-4 group cursor-pointer border-b border-gray-50 pb-3 sm:pb-4 last:border-0 last:pb-0">
+                <span className="flex-shrink-0 w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-gray-100 text-gray-500 font-bold flex items-center justify-center text-xs sm:text-sm group-hover:bg-[#D32F2F] group-hover:text-white transition-colors">
                   {idx + 1}
                 </span>
                 <div>
@@ -64,7 +64,7 @@ export default function HeroSection({ news = [] }: HeroSectionProps) {
                     {item.title}
                   </h3>
                 </div>
-              </div>
+              </Link>
             ))
           ) : (
             <p className="text-sm text-gray-500">আরও কোনো খবর নেই</p>

@@ -6,6 +6,7 @@ import News from "@/models/News";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import mongoose from "mongoose";
 import { 
   User,
   Clock, 
@@ -22,7 +23,19 @@ interface NewsDetailsPageProps {
 async function getNewsDetail(id: string) {
   try {
     await connectDB();
-    const news = await News.findById(id);
+    
+    let news = null;
+
+    // 1. Try finding by ID if it's a valid ObjectId
+    if (mongoose.Types.ObjectId.isValid(id)) {
+      news = await News.findById(id);
+    }
+
+    // 2. If not found by ID, try finding by Slug
+    if (!news) {
+      news = await News.findOne({ slug: id });
+    }
+
     if (!news) return null;
     return JSON.parse(JSON.stringify(news));
   } catch (error) {
@@ -57,7 +70,7 @@ export default async function NewsDetailsPage({ params }: NewsDetailsPageProps) 
     notFound();
   }
 
-  const relatedNews = await getRelatedNews(news.category, id);
+  const relatedNews = await getRelatedNews(news.category, news._id);
 
   return (
     <div className="min-h-screen bg-white font-anek text-gray-900">
@@ -167,7 +180,7 @@ export default async function NewsDetailsPage({ params }: NewsDetailsPageProps) 
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {relatedNews.map((item: any) => (
-                        <Link href={`/news/${item._id}`} key={item._id} className="group cursor-pointer">
+                        <Link href={`/news/${item.slug || item._id}`} key={item._id} className="group cursor-pointer">
                             <div className="relative aspect-[16/10] bg-gray-200 rounded-lg overflow-hidden mb-4">
                                 <Image src={item.image || "https://placehold.co/600x400"} alt={item.title} fill className="object-cover group-hover:scale-105 transition-transform duration-300" />
                             </div>

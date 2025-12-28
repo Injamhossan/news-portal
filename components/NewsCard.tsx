@@ -3,6 +3,7 @@ import Link from "next/link";
 
 interface NewsCardProps {
   _id: string;
+  slug?: string;
   category: string;
   categoryColor: string;
   title: string;
@@ -14,6 +15,7 @@ interface NewsCardProps {
 
 export default function NewsCard({
   _id,
+  slug,
   category,
   categoryColor,
   title,
@@ -23,7 +25,7 @@ export default function NewsCard({
   image
 }: NewsCardProps) {
   return (
-    <Link href={`/news/${_id}`} className="block h-full">
+    <Link href={`/news/${slug || _id}`} className="block h-full">
     <article className="flex flex-col bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-md transition-shadow group h-full font-anek">
       <div className="relative h-48 w-full bg-gray-200 overflow-hidden">
         <Image

@@ -27,7 +27,7 @@ export default function BreakingNews({ news }: BreakingNewsProps) {
               <span key={index} className="inline-flex items-center gap-2">
                 <span className="w-2 h-2 bg-[#D32F2F] rounded-full inline-block"></span>
                 <Link
-                  href={`/news/${item._id}`}
+                  href={`/news/${item.slug || item._id}`}
                   className="text-gray-800 hover:text-[#D32F2F] font-medium transition-colors"
                 >
                   {item.title}
@@ -39,7 +39,7 @@ export default function BreakingNews({ news }: BreakingNewsProps) {
               <span key={`dup-${index}`} className="inline-flex items-center gap-2">
                 <span className="w-2 h-2 bg-[#D32F2F] rounded-full inline-block"></span>
                 <Link
-                  href={`/news/${item._id}`}
+                  href={`/news/${item.slug || item._id}`}
                   className="text-gray-800 hover:text-[#D32F2F] font-medium transition-colors"
                 >
                   {item.title}

@@ -132,36 +132,36 @@ export default function AddNews() {
   return (
     <div className="min-h-screen bg-gray-50 font-anek text-gray-900 pb-20">
       {/* Top Bar */}
-      <nav className="bg-white sticky top-0 z-10 border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-4">
+      <nav className="bg-white sticky top-0 z-10 border-b border-gray-200 px-4 md:px-6 py-3 md:py-4 flex items-center justify-between shadow-sm">
+        <div className="flex items-center gap-2 md:gap-4">
           <Link
             href="/admin/dashboard"
             className="text-gray-500 hover:text-gray-900 flex items-center gap-1 text-sm font-medium transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
-            Back
+            <span className="hidden sm:inline">Back</span>
           </Link>
-          <div className="h-6 w-px bg-gray-300 mx-2"></div>
-          <h1 className="text-xl font-serif font-bold text-gray-900">New Article</h1>
+          <div className="h-6 w-px bg-gray-300 mx-1 md:mx-2"></div>
+          <h1 className="text-lg md:text-xl font-serif font-bold text-gray-900">New Article</h1>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 md:gap-3">
             {/* Preview Button - Placeholder logic */}
-          <button type="button" className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 text-sm font-medium transition-colors">
+          <button type="button" className="hidden sm:flex items-center gap-2 px-3 md:px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 text-xs md:text-sm font-medium transition-colors">
             <Eye className="w-4 h-4" />
-            Preview
+            <span className="hidden md:inline">Preview</span>
           </button>
            {/* Submit Button triggers form */}
           <button
             onClick={handleSubmit}
             disabled={loading}
-            className="flex items-center gap-2 px-6 py-2 bg-[#0F172A] text-white rounded-lg hover:bg-black text-sm font-medium transition-colors disabled:opacity-50 shadow-sm"
+            className="flex items-center gap-2 px-4 md:px-6 py-2 bg-[#0F172A] text-white rounded-lg hover:bg-black text-xs md:text-sm font-medium transition-colors disabled:opacity-50 shadow-sm"
           >
             {loading ? (
                 <>Saving...</>
             ) : (
                 <>
                     <Save className="w-4 h-4" />
-                    Publish
+                    <span>Publish</span>
                 </>
             )}
             
@@ -169,8 +169,8 @@ export default function AddNews() {
         </div>
       </nav>
 
-      <div className="max-w-[1600px] mx-auto px-6 py-8">
-        <form onSubmit={handleSubmit} className="grid grid-cols-12 gap-8">
+      <div className="max-w-[1600px] w-full mx-auto px-4 md:px-6 py-4 md:py-8 overflow-x-hidden">
+        <form onSubmit={handleSubmit} className="grid grid-cols-12 gap-4 lg:gap-8">
           {/* Left Column (Main Content) */}
           <div className="col-span-12 lg:col-span-8 space-y-6">
             

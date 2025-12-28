@@ -30,7 +30,7 @@ export default function RootLayout({
       <body className={`${banglaFont.variable} font-anek antialiased`}>
         {children}
         <GoogleAnalytics gaId="G-LDC5ZD9S53"/>
-        <GoogleTagManager gtmId="GTM-W3LBTTW3"/>
+        <GoogleTagManager gtmId="GTM-WDNCFQS5"/>
       </body>
     </html>
   );

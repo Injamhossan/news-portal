@@ -94,19 +94,19 @@ export default function AdminDashboard() {
     <div className="min-h-screen bg-gray-50 font-anek text-gray-900">
       {/* Top Navbar */}
       <nav className="bg-[#111827] text-white shadow-md">
-        <div className="container mx-auto px-6 h-16 flex justify-between items-center">
+        <div className="container mx-auto px-4 md:px-6 h-16 flex justify-between items-center">
           <div className="flex items-center gap-3">
              <div className="bg-[#D32F2F] p-1.5 rounded">
                 <FileText className="w-5 h-5 text-white" />
              </div>
              <div>
-                 <h1 className="font-bold text-lg leading-tight">Admin Panel</h1>
-                 <p className="text-xs text-gray-400">NewsPortal Management</p>
+                 <h1 className="font-bold text-lg leading-tight">Admin</h1>
+                 <p className="text-xs text-gray-400 hidden sm:block">NewsPortal Management</p>
              </div>
           </div>
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-4 md:gap-6">
              <Link href="/" target="_blank" className="text-gray-300 hover:text-white flex items-center gap-2 text-sm transition-colors">
-                <span>View Site</span>
+                <span className="hidden sm:inline">View Site</span>
                 <ExternalLink className="w-4 h-4" />
              </Link>
              <button
@@ -114,15 +114,15 @@ export default function AdminDashboard() {
                 className="text-gray-300 hover:text-white flex items-center gap-2 text-sm transition-colors"
                 >
                 <LogOut className="w-4 h-4" />
-                <span>Logout</span>
+                <span className="hidden sm:inline">Logout</span>
             </button>
           </div>
         </div>
       </nav>
 
-      <main className="container mx-auto px-6 py-8">
+      <main className="container mx-auto px-4 md:px-6 py-6 md:py-8">
         {/* Statistics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6 md:mb-8">
             <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex items-center gap-4">
                 <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center text-gray-600">
                     <FileText className="w-6 h-6" />
@@ -199,23 +199,23 @@ export default function AdminDashboard() {
                 {filteredNews.map((item) => (
                     <tr key={item._id} className="hover:bg-gray-50 transition-colors group">
                     <td className="px-6 py-4">
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-3 min-w-[280px]">
                             <div className="w-10 h-10 relative bg-gray-200 rounded overflow-hidden flex-shrink-0">
                                 {item.image && (
                                     <Image src={item.image} alt={item.title} fill className="object-cover" />
                                 )}
                             </div>
-                            <span className="font-medium text-gray-900 line-clamp-1 max-w-xs block" title={item.title}>
+                            <span className="font-medium text-gray-900 line-clamp-2" title={item.title}>
                                 {item.title}
                             </span>
                         </div>
                     </td>
-                    <td className="px-6 py-4 text-gray-600 text-sm">
+                    <td className="px-6 py-4 text-gray-600 text-sm whitespace-nowrap">
                         <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
                         {item.category}
                         </span>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-6 py-4 whitespace-nowrap">
                         {item.isBreaking ? (
                              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
                                 <Zap className="w-3 h-3" /> Breaking

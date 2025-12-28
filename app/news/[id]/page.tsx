@@ -10,7 +10,8 @@ import mongoose from "mongoose";
 import { 
   User,
   Clock, 
-  ArrowLeft 
+  ArrowLeft,
+  Printer
 } from "lucide-react";
 
 import ShareButtons from "@/components/ShareButtons";
@@ -112,10 +113,23 @@ export default async function NewsDetailsPage({ params }: NewsDetailsPageProps) 
                 </div>
               </div>
 
-              <div className="flex items-center gap-2">
-                  <span className="text-sm text-gray-400 mr-2">Share:</span>
-                  <div className="flex gap-2">
-                       <ShareButtons title={news.title} />
+              <div className="flex items-center gap-4">
+                  <Link 
+                    href={`/news/${id}/print`}
+                    className="flex items-center gap-2 text-gray-500 hover:text-[#D32F2F] transition-colors group"
+                    title="প্রিন্ট করুন"
+                  >
+                    <Printer className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                    <span className="text-sm font-medium">Print</span>
+                  </Link>
+
+                  <div className="w-px h-4 bg-gray-300"></div>
+
+                  <div className="flex items-center gap-2">
+                       <span className="text-sm text-gray-400 mr-2">Share:</span>
+                       <div className="flex gap-2">
+                            <ShareButtons title={news.title} />
+                       </div>
                   </div>
               </div>
           </div>

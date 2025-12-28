@@ -1,6 +1,6 @@
 import Header from "@/components/Header";
 import Navbar from "@/components/Navbar";
-export const dynamic = "force-dynamic";
+
 import HeroSection from "@/components/HeroSection";
 import NewsCard from "@/components/NewsCard";
 import Sidebar from "@/components/Sidebar";

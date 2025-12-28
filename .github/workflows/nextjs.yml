@@ -37,6 +37,8 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build Next.js (static export)
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
         run: pnpm run build
 
       - name: Upload Pages artifact

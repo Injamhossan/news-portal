@@ -2,11 +2,7 @@ import mongoose from "mongoose";
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
-if (!MONGODB_URI) {
-  throw new Error(
-    "Please define the MONGODB_URI environment variable inside .env.local"
-  );
-}
+// Global interface to prevent multiple connections in development
 
 // Global interface to prevent multiple connections in development
 interface MongooseCache {
@@ -35,7 +31,13 @@ async function connectDB() {
       dbName: "news_db",
     };
 
-    cached.promise = mongoose.connect(MONGODB_URI!, opts).then((mongoose) => {
+    if (!MONGODB_URI) {
+        throw new Error(
+            "Please define the MONGODB_URI environment variable inside .env.local"
+        );
+    }
+
+    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
       return mongoose;
     });
   }

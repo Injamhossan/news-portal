@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import Navbar from "@/components/Navbar";
+export const dynamic = "force-dynamic";
 import HeroSection from "@/components/HeroSection";
 import NewsCard from "@/components/NewsCard";
 import Sidebar from "@/components/Sidebar";
@@ -35,30 +36,21 @@ export default async function Home() {
       <main className="container mx-auto px-4 py-8">
         <HeroSection news={newsVideoData} />
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Main Content Column (News Grid) */}
-          <div className="lg:col-span-3">
-             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {newsVideoData.length > 0 ? (
-                  newsVideoData.map((news: any, idx: number) => (
-                     <NewsCard key={idx} {...news} />
-                  ))
-                ) : (
-                  <p className="text-center text-gray-500 col-span-full py-10">কোনো খবর পাওয়া যায়নি</p>
-                )}
-            </div>
-            
-            {/* Pagination Placeholder */}
-             <div className="mt-12 flex justify-center">
-                 <button className="px-6 py-2 border border-gray-300 rounded hover:bg-gray-50 text-sm font-medium transition-colors">আরও দেখুন</button>
-             </div>
-          </div>
-
-          {/* Sidebar Column */}
-          <div className="lg:col-span-1">
-             <Sidebar />
-          </div>
+        {/* News Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {newsVideoData.length > 0 ? (
+            newsVideoData.map((news: any, idx: number) => (
+                <NewsCard key={idx} {...news} />
+            ))
+          ) : (
+            <p className="text-center text-gray-500 col-span-full py-10">কোনো খবর পাওয়া যায়নি</p>
+          )}
         </div>
+      
+        {/* Pagination Placeholder */}
+          <div className="mt-12 flex justify-center">
+              <button className="px-6 py-2 border border-gray-300 rounded hover:bg-gray-50 text-sm font-medium transition-colors">আরও দেখুন</button>
+          </div>
       </main>
       
       <Footer />

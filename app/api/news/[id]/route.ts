@@ -3,6 +3,21 @@ import { NextResponse } from "next/server";
 import connectDB from "@/lib/db";
 import News from "@/models/News";
 
+export const dynamic = "force-static";
+
+export async function generateStaticParams() {
+  try {
+    await connectDB();
+    const news = await News.find({}, "_id");
+    return news.map((item) => ({
+      id: item._id.toString(),
+    }));
+  } catch (e) {
+    console.error("Failed to generate static params for API:", e);
+    return [];
+  }
+}
+
 export async function PUT(
   request: Request,
   props: { params: Promise<{ id: string }> }
@@ -80,14 +95,4 @@ export async function GET(
   }
 }
 
-export async function generateStaticParams() {
-  try {
-    await connectDB();
-    const news = await News.find({}, "_id");
-    return news.map((item) => ({
-      id: item._id.toString(),
-    }));
-  } catch (e) {
-    return [];
-  }
-}
+

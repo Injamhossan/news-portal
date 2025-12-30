@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import NewsCard from "./NewsCard";
+import { motion } from "framer-motion";
 
 interface NewsFeedProps {
   initialNews: any[];
@@ -32,9 +33,24 @@ export default function NewsFeed({ initialNews }: NewsFeedProps) {
     }
   };
 
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
   return (
     <>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <motion.div 
+        variants={container}
+        initial="hidden"
+        animate="show"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+      >
         {news.length > 0 ? (
           news.map((item: any, idx: number) => (
             <NewsCard key={`${item._id}-${idx}`} {...item} />
@@ -44,7 +60,7 @@ export default function NewsFeed({ initialNews }: NewsFeedProps) {
             কোনো খবর পাওয়া যায়নি
           </p>
         )}
-      </div>
+      </motion.div>
 
       {hasMore && news.length > 0 && (
         <div className="mt-12 flex justify-center">

@@ -25,7 +25,18 @@ export async function GET(request: Request) {
       filter.category = category;
     }
 
-    const news = await News.find(filter).sort({ createdAt: -1 });
+    const page = parseInt(searchParams.get("page") || "1");
+    const limit = parseInt(searchParams.get("limit") || "0"); // 0 means no limit
+
+    const skip = (page - 1) * limit;
+
+    let queryBuilder = News.find(filter).sort({ createdAt: -1 });
+    
+    if (limit > 0) {
+      queryBuilder = queryBuilder.skip(skip).limit(limit);
+    }
+
+    const news = await queryBuilder;
     return NextResponse.json(news);
   } catch (error: any) {
     console.error("Error fetching news:", error);

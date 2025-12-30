@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Logo from '@/assets/Logo-01.png';
+import Image from "next/image";
 
 export default function Header() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -23,7 +25,7 @@ export default function Header() {
   });
 
   return (
-    <header className="font-sans">
+    <header className="font-anek">
       {/* Top Bar */}
       <div className="bg-[#111827] text-white text-xs py-2">
         <div className="container mx-auto px-4 flex justify-between items-center">
@@ -32,7 +34,7 @@ export default function Header() {
             <span>{currentDate}</span>
           </div>
           <div className="flex items-center gap-4">
-            <Link href="/admin" className="hover:text-gray-300">
+            <Link href="/admin" className="hover:text-gray-300 font-anek">
               অ্যাডমিন
             </Link>
           </div>
@@ -44,14 +46,14 @@ export default function Header() {
         <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="bg-[#D32F2F] text-white w-10 h-10 flex items-center justify-center font-bold text-xl rounded">
-            
+            <div className="text-white w-10 h-10 flex items-center justify-center font-bold text-xl rounded">
+            <Image src={Logo} alt="Logo"/>
             </div>
             <div className="flex flex-col">
-              <span className="text-2xl font-bold text-gray-900 group-hover:text-[#D32F2F] transition-colors">
+              <span className="text-2xl font-anek font-bold text-gray-900 group-hover:text-[#D32F2F] transition-colors">
                 দৈনিক সর্বশেষ সংবাদ 
               </span>
-              <span className="text-[10px] text-gray-500 tracking-wider">
+              <span className="text-[10px] font-anek text-gray-500 tracking-wider">
                 দেশ ও জনগনের কথা বলে
               </span>
             </div>

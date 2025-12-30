@@ -1,36 +1,30 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect } from "react";
 import NewsCard from "./NewsCard";
 import { motion } from "framer-motion";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { setInitialNews, fetchMoreNews } from "@/lib/features/newsSlice";
 
 interface NewsFeedProps {
   initialNews: any[];
 }
 
 export default function NewsFeed({ initialNews }: NewsFeedProps) {
-  const [news, setNews] = useState(initialNews);
-  const [page, setPage] = useState(3);
-  const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
+  const dispatch = useAppDispatch();
+  const { items: news, page, hasMore, loading } = useAppSelector((state) => state.news);
 
-  const loadMore = async () => {
-    setLoading(true);
-    try {
-      const res = await fetch(`/api/news?page=${page}&limit=4`);
-      const newNews = await res.json();
-
-      if (newNews.length === 0) {
-        setHasMore(false);
-      } else {
-        setNews([...news, ...newNews]);
-        setPage(page + 1);
-      }
-    } catch (error) {
-      console.error("Failed to load more news", error);
-    } finally {
-      setLoading(false);
+  // Initialize Redux state with prop data on mount if empty
+  useEffect(() => {
+    // Only set if we have no news in store, or you could force update it
+    // For this example, we'll ensure we at least start with what the server gave us
+    if (news.length === 0 && initialNews.length > 0) {
+      dispatch(setInitialNews(initialNews));
     }
+  }, [initialNews, dispatch, news.length]);
+
+  const loadMore = () => {
+    dispatch(fetchMoreNews(page));
   };
 
   const container = {
@@ -43,6 +37,9 @@ export default function NewsFeed({ initialNews }: NewsFeedProps) {
     }
   };
 
+  // If Redux is empty (initial render before effect), fall back to initialNews temporarily to avoid flash
+  const displayNews = news.length > 0 ? news : initialNews;
+
   return (
     <>
       <motion.div 
@@ -51,8 +48,8 @@ export default function NewsFeed({ initialNews }: NewsFeedProps) {
         animate="show"
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
       >
-        {news.length > 0 ? (
-          news.map((item: any, idx: number) => (
+        {displayNews.length > 0 ? (
+          displayNews.map((item: any, idx: number) => (
             <NewsCard key={`${item._id}-${idx}`} {...item} />
           ))
         ) : (
@@ -62,7 +59,8 @@ export default function NewsFeed({ initialNews }: NewsFeedProps) {
         )}
       </motion.div>
 
-      {hasMore && news.length > 0 && (
+      {/* Show button if we have more, or if we are using initialNews (assuming there might be more) */}
+      {hasMore && displayNews.length > 0 && (
         <div className="mt-12 flex justify-center">
           <button
             onClick={loadMore}

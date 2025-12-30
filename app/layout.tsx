@@ -4,6 +4,7 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import { GoogleTagManager } from "@next/third-parties/google";
 import Script from "next/script";
 import "@/style/globals.css";
+import StoreProvider from "./StoreProvider";
 
 
 const banglaFont = localFont({
@@ -29,7 +30,9 @@ export default function RootLayout({
   return (
     <html lang="bn" suppressHydrationWarning>
       <body className={`${banglaFont.variable} font-anek antialiased`} suppressHydrationWarning={true}>
-        {children}
+        <StoreProvider>
+          {children}
+        </StoreProvider>
       </body>
         <GoogleAnalytics gaId="G-LDC5ZD9S53"/>
         <GoogleTagManager gtmId="GTM-WDNCFQS5"/>

@@ -6,6 +6,7 @@ import News from "@/models/News";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Metadata, ResolvingMetadata } from "next";
 import mongoose from "mongoose";
 import { 
   User,
@@ -23,6 +24,54 @@ interface NewsDetailsPageProps {
   params: Promise<{ id: string }>;
 }
 
+export const dynamic = "force-dynamic";
+
+export async function generateMetadata(
+  { params }: NewsDetailsPageProps,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const resolvedParams = await params;
+  const { id } = resolvedParams;
+  const news = await getNewsDetail(id);
+
+  if (!news) {
+    return {
+      title: "News Not Found",
+    };
+  }
+
+  const previousImages = (await parent).openGraph?.images || [];
+
+  return {
+    title: news.title,
+    description: news.excerpt,
+    openGraph: {
+      title: news.title,
+      description: news.excerpt,
+      url: `/news/${id}`,
+      siteName: 'Doinik Sorboshesh',
+      images: [
+        {
+          url: news.image || "https://placehold.co/1200x630/png?text=No+Image",
+          width: 1200,
+          height: 630,
+          alt: news.title,
+        },
+        ...previousImages,
+      ],
+      type: 'article',
+      publishedTime: news.createdAt,
+      authors: [news.author],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: news.title,
+      description: news.excerpt,
+      images: [news.image || "https://placehold.co/1200x630/png?text=No+Image"],
+    },
+  };
+}
+
 export async function generateStaticParams() {
   try {
     await connectDB();
@@ -38,7 +87,7 @@ export async function generateStaticParams() {
   } catch (e) {
       console.error("Error generating static params", e);
       return [];
-  }
+    }
 }
 
 async function getNewsDetail(id: string) {

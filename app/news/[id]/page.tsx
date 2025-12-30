@@ -11,11 +11,13 @@ import {
   User,
   Clock, 
   ArrowLeft,
-  Printer
+  Printer,
+  Eye
 } from "lucide-react";
 
 import ShareButtons from "@/components/ShareButtons";
 import NewsGallery from "@/components/NewsGallery";
+import ViewCounter from "@/components/ViewCounter";
 
 interface NewsDetailsPageProps {
   params: Promise<{ id: string }>;
@@ -129,7 +131,12 @@ export default async function NewsDetailsPage({ params }: NewsDetailsPageProps) 
                     <Clock className="w-4 h-4 text-[#D32F2F]" />
                     <span>{news.date}</span>
                 </div>
+                <div className="flex items-center gap-2">
+                    <Eye className="w-4 h-4 text-[#D32F2F]" />
+                    <span>{news.views || 0} views</span>
+                </div>
               </div>
+              <ViewCounter id={news._id} />
 
               <div className="flex items-center gap-4">
                   <Link 
@@ -155,19 +162,28 @@ export default async function NewsDetailsPage({ params }: NewsDetailsPageProps) 
 
         {/* Featured Image */}
         {/* Featured Image or Gallery */}
-        {news.gallery && news.gallery.length > 0 ? (
-           <NewsGallery images={news.gallery} title={news.title} />
-        ) : (
-          <div className="mb-10 w-full relative aspect-[16/9] rounded-2xl overflow-hidden bg-gray-100 shadow-sm">
+        {(() => {
+          const allImages = [
+            ...(news.image ? [news.image] : []),
+            ...(news.gallery || [])
+          ].filter(Boolean);
+
+          if (allImages.length > 0) {
+            return <NewsGallery images={allImages} title={news.title} />;
+          }
+
+          return (
+            <div className="mb-10 w-full relative aspect-[16/9] rounded-2xl overflow-hidden bg-gray-100 shadow-sm">
               <Image 
-                  src={news.image || "https://placehold.co/1200x800/png"} 
+                  src="https://placehold.co/1200x800/png" 
                   alt={news.title} 
                   fill 
                   className="object-cover"
                   priority
               />
-          </div>
-        )}
+            </div>
+          );
+        })()}
 
         {/* Article Body */}
         <div className="max-w-4xl">

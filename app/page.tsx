@@ -12,13 +12,18 @@ import BreakingNews from "@/components/BreakingNews";
 
 async function getNews() {
   try {
-    await connectDB();
+    const conn = await connectDB();
+    console.log(`Connected to DB: ${conn.connection.name}`);
+    
+    // Debug: Check count
+    const count = await News.countDocuments();
+    console.log(`Found ${count} news items`);
+
     const news = await News.find({}).sort({ createdAt: -1 });
-    // Serialize to plain JSON to avoid "Only plain objects can be passed to Client Components" warning
     return JSON.parse(JSON.stringify(news));
-  } catch (error) {
+  } catch (error: any) {
     console.error("Failed to fetch news:", error);
-    return [];
+    return { error: error.message };
   }
 }
 
@@ -31,10 +36,10 @@ export default async function Home() {
       <Navbar />
 
       {/* Breaking News Section */}
-      <BreakingNews news={newsVideoData} />
+      <BreakingNews news={Array.isArray(newsVideoData) ? newsVideoData : []} />
 
       <main className="container mx-auto px-4 py-8">
-        <HeroSection news={newsVideoData} />
+        <HeroSection news={Array.isArray(newsVideoData) ? newsVideoData : []} />
 
         {/* News Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

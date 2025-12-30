@@ -1,7 +1,20 @@
+"use client";
+
 import Link from "next/link";
-import Image from 'next/image';
-import Logo from "@/assets/Logo-01.png";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+
 export default function Header() {
+  const [searchQuery, setSearchQuery] = useState("");
+  const router = useRouter();
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
+    }
+  };
+
   const currentDate = new Date().toLocaleDateString("bn-BD", {
     weekday: "long",
     year: "numeric",
@@ -10,8 +23,7 @@ export default function Header() {
   });
 
   return (
-    <header className="font-anek
-    ">
+    <header className="font-sans">
       {/* Top Bar */}
       <div className="bg-[#111827] text-white text-xs py-2">
         <div className="container mx-auto px-4 flex justify-between items-center">
@@ -32,8 +44,8 @@ export default function Header() {
         <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-10 h-10 flex items-center justify-center font-bold text-xl rounded">
-              <Image src={Logo} alt="alt" />
+            <div className="bg-[#D32F2F] text-white w-10 h-10 flex items-center justify-center font-bold text-xl rounded">
+            
             </div>
             <div className="flex flex-col">
               <span className="text-2xl font-bold text-gray-900 group-hover:text-[#D32F2F] transition-colors">
@@ -46,27 +58,31 @@ export default function Header() {
           </Link>
 
           {/* Search Bar */}
-          <div className="w-full md:w-1/3 relative">
+          <form onSubmit={handleSearch} className="w-full md:w-1/3 relative">
             <input
               type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="খবর খুঁজুন..."
-              className="w-full bg-gray-100 border-none rounded-md py-2 px-4 pl-10 text-sm focus:ring-2 focus:ring-[#D32F2F] outline-none"
+              className="w-full bg-gray-100 border-none rounded-md py-2 px-4 pl-10 text-sm focus:ring-2 focus:ring-[#D32F2F] outline-none text-gray-900"
             />
-            <svg
-              className="w-4 h-4 text-gray-400 absolute left-3 top-2.5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              />
-            </svg>
-          </div>
+            <button type="submit" className="absolute left-3 top-2.5 text-gray-400 hover:text-[#D32F2F]">
+                <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+                </svg>
+            </button>
+          </form>
 
           {/* Right Action (Admin Panel Button again as per image?) */}
           <div className="hidden md:block text-sm font-medium text-gray-600">

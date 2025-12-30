@@ -39,6 +39,7 @@ function EditNewsContent() {
     { label: "Health (স্বাস্থ্য)", value: "স্বাস্থ্য", color: "bg-rose-400" },
     { label: "Education (শিক্ষা)", value: "শিক্ষা", color: "bg-yellow-500" },
     { label: "Crime (অপরাধ)", value: "অপরাধ", color: "bg-slate-700" },
+    { label: "Social (সামাজিক)", value: "সামাজিক", color: "bg-indigo-500" },
     { label: "World (বিশ্ব)", value: "বিশ্ব", color: "bg-purple-500" },
   ];
 
@@ -46,8 +47,9 @@ function EditNewsContent() {
     return text
       .toLowerCase()
       .trim()
-      .replace(/[^\w\s-]/g, "")
-      .replace(/[\s_-]+/g, "-")
+      .replace(/\s+/g, "-")
+      .replace(/[^\w\u0980-\u09FF\-]/g, "")
+      .replace(/\-\-+/g, "-")
       .replace(/^-+|-+$/g, "");
   };
 
@@ -66,7 +68,7 @@ function EditNewsContent() {
 
     const fetchNews = async () => {
       try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "";
+        const apiUrl = (process.env.NEXT_PUBLIC_API_URL || "").replace(/\/$/, "");
         const res = await fetch(`${apiUrl}/api/news/${id}`);
         if (!res.ok) throw new Error("Failed to fetch news");
         const data = await res.json();
@@ -137,7 +139,7 @@ function EditNewsContent() {
     const categoryColor = selectedCat ? selectedCat.color : "bg-gray-500";
 
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "";
+      const apiUrl = (process.env.NEXT_PUBLIC_API_URL || "").replace(/\/$/, "");
       const res = await fetch(`${apiUrl}/api/news/${id}`, {
         method: "PUT",
         headers: {
@@ -178,15 +180,15 @@ function EditNewsContent() {
             className="text-gray-500 hover:text-gray-900 flex items-center gap-1 text-sm font-medium transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span className="hidden sm:inline">Back</span>
+            <span className="hidden sm:inline">ফিরে যান</span>
           </Link>
           <div className="h-6 w-px bg-gray-300 mx-1 md:mx-2"></div>
-          <h1 className="text-lg md:text-xl font-serif font-bold text-gray-900">Edit Article</h1>
+          <h1 className="text-lg md:text-xl font-serif font-bold text-gray-900">সংবাদ সম্পাদনা</h1>
         </div>
         <div className="flex items-center gap-2 md:gap-3">
           <button type="button" className="hidden sm:flex items-center gap-2 px-3 md:px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 text-xs md:text-sm font-medium transition-colors">
             <Eye className="w-4 h-4" />
-            <span className="hidden md:inline">Preview</span>
+            <span className="hidden md:inline">প্রিভিউ</span>
           </button>
           <button
             onClick={handleSubmit}
@@ -194,11 +196,11 @@ function EditNewsContent() {
             className="flex items-center gap-2 px-4 md:px-6 py-2 bg-[#0F172A] text-white rounded-lg hover:bg-black text-xs md:text-sm font-medium transition-colors disabled:opacity-50 shadow-sm"
           >
             {saving ? (
-                <>Updating...</>
+                <>আপডেট হচ্ছে...</>
             ) : (
                 <>
                     <Save className="w-4 h-4" />
-                    <span>Update</span>
+                    <span>আপডেট</span>
                 </>
             )}
           </button>
@@ -212,13 +214,13 @@ function EditNewsContent() {
             
             {/* Title */}
             <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Title *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">শিরোনাম *</label>
                 <input
                 type="text"
                 name="title"
                 value={formData.title}
                 onChange={handleChange}
-                placeholder="Enter article title..."
+                placeholder="সংবাদের শিরোনাম লিখুন..."
                 className="w-full text-lg px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all placeholder:text-gray-400"
                 required
                 />
@@ -226,7 +228,7 @@ function EditNewsContent() {
 
             {/* Slug */}
              <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                <label className="block text-sm font-semibold text-gray-700 mb-2">URL Slug</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">URL স্লাগ</label>
                 <div className="flex items-center">
                     <span className="px-4 py-3 bg-gray-50 border border-r-0 border-gray-200 text-gray-500 text-sm rounded-l-lg select-none">
                         /news/
@@ -244,13 +246,13 @@ function EditNewsContent() {
 
             {/* Short Description */}
             <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Short Description *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">সংক্ষিপ্ত বিবরণ *</label>
                 <textarea
                 name="excerpt"
                 value={formData.excerpt}
                 onChange={handleChange}
                 rows={3}
-                placeholder="Brief summary of the article..."
+                placeholder="সংবাদের সংক্ষিপ্ত সারাংশ..."
                 className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all resize-y text-sm"
                 required
                 />
@@ -258,18 +260,18 @@ function EditNewsContent() {
 
             {/* Full Content */}
             <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Full Content *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">বিস্তারিত বিবরণ *</label>
                 <textarea
                 name="content"
                 value={formData.content}
                 onChange={handleChange}
                 rows={15}
-                placeholder="Write your article content here... (HTML supported)"
+                placeholder="আপনার সংবাদের বিস্তারিত এখানে লিখুন... (HTML সমর্থিত)"
                 className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all resize-y font-mono text-sm leading-relaxed"
                 required
                 />
                 <p className="mt-2 text-xs text-gray-400">
-                    You can use HTML tags for formatting (p, h3, ul, li, strong, em, etc.)
+                    আপনি ফরম্যাটিং এর জন্য HTML ট্যাগ ব্যবহার করতে পারেন (p, h3, ul, li, strong, em, ইত্যাদি)
                 </p>
             </div>
 
@@ -280,11 +282,11 @@ function EditNewsContent() {
             
             {/* Publish Settings */}
             <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                <h3 className="text-sm font-bold text-gray-900 mb-4 font-serif">Publish Settings</h3>
+                <h3 className="text-sm font-bold text-gray-900 mb-4 font-serif">প্রকাশনা সেটিংস</h3>
                 
                 <div className="space-y-4">
                     <div className="flex items-center justify-between">
-                        <label className="text-sm text-gray-600">Published</label>
+                        <label className="text-sm text-gray-600">প্রকাশিত</label>
                         <label className="relative inline-flex items-center cursor-pointer">
                             <input
                                 type="checkbox"
@@ -298,7 +300,7 @@ function EditNewsContent() {
                     </div>
 
                     <div className="flex items-center justify-between">
-                        <label className="text-sm text-gray-600">Breaking News</label>
+                        <label className="text-sm text-gray-600">ব্রেকিং নিউজ</label>
                         <label className="relative inline-flex items-center cursor-pointer">
                             <input
                                 type="checkbox"
@@ -315,7 +317,7 @@ function EditNewsContent() {
 
             {/* Category */}
             <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                <h3 className="text-sm font-bold text-gray-900 mb-4 font-serif">Category</h3>
+                <h3 className="text-sm font-bold text-gray-900 mb-4 font-serif">ক্যাটাগরি</h3>
                 <div className="relative">
                     <select
                     name="category"
@@ -337,20 +339,20 @@ function EditNewsContent() {
 
             {/* Featured Image */}
             <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                <h3 className="text-sm font-bold text-gray-900 mb-4 font-serif">Featured Image</h3>
+                <h3 className="text-sm font-bold text-gray-900 mb-4 font-serif">প্রধান ছবি</h3>
                 <input
                 type="text"
                 name="image"
                 value={formData.image}
                 onChange={handleChange}
-                placeholder="Enter image URL..."
+                placeholder="ছবির URL দিন..."
                 className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm"
                 />
             </div>
 
             {/* Gallery Images */}
              <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                <h3 className="text-sm font-bold text-gray-900 mb-4 font-serif">Image Gallery</h3>
+                <h3 className="text-sm font-bold text-gray-900 mb-4 font-serif">ছবি গ্যালারি</h3>
                 <div className="space-y-3">
                   {formData.gallery.map((url, index) => (
                     <div key={index} className="flex gap-2">
@@ -377,14 +379,14 @@ function EditNewsContent() {
                     className="w-full py-2 border-2 border-dashed border-gray-300 rounded-lg text-gray-500 hover:border-blue-500 hover:text-blue-500 transition-colors text-sm font-medium flex items-center justify-center gap-2"
                   >
                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path></svg>
-                    Add Gallery Image
+                    গ্যালারি ছবি যোগ করুন
                   </button>
                 </div>
             </div>
 
             {/* Tags */}
             <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                 <h3 className="text-sm font-bold text-gray-900 mb-4 font-serif">Tags</h3>
+                 <h3 className="text-sm font-bold text-gray-900 mb-4 font-serif">ট্যাগ</h3>
                 <input
                 type="text"
                 name="tags"
@@ -393,12 +395,12 @@ function EditNewsContent() {
                 placeholder="tag1, tag2, tag3..."
                 className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm"
                 />
-                <p className="mt-2 text-xs text-gray-400">Separate tags with commas</p>
+                <p className="mt-2 text-xs text-gray-400">কমা দিয়ে ট্যাগগুলো আলাদা করুন</p>
             </div>
 
              {/* Author */}
              <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                 <h3 className="text-sm font-bold text-gray-900 mb-4 font-serif">Author</h3>
+                 <h3 className="text-sm font-bold text-gray-900 mb-4 font-serif">লেখক</h3>
                 <input
                 type="text"
                 name="author"

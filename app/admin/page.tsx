@@ -22,7 +22,14 @@ export default function AdminLogin() {
         body: JSON.stringify({ email, password }),
       });
 
-      const data = await res.json();
+      let data;
+      try {
+        data = await res.json();
+      } catch (jsonError) {
+        const text = await res.text();
+        console.error("Failed to parse JSON response:", text);
+        throw new Error(`Invalid server response: ${text.substring(0, 100)}...`);
+      }
 
       if (res.ok) {
         localStorage.setItem("admin_token", data.token);
@@ -31,8 +38,9 @@ export default function AdminLogin() {
       } else {
         setError(data.message || "লগইন ব্যর্থ হয়েছে");
       }
-    } catch (err) {
-      setError("সার্ভার সমস্যা। অনুগ্রহ করে পরে আবার চেষ্টা করুন।");
+    } catch (err: any) {
+      console.error("Login failed:", err);
+      setError(err.message || "সার্ভার সমস্যা। অনুগ্রহ করে পরে আবার চেষ্টা করুন।");
     }
   };
 

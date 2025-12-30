@@ -15,6 +15,7 @@ export interface INews extends Document {
   published: boolean;
   tags: string[];
   gallery?: string[];
+  views?: number;
 }
 
 const NewsSchema: Schema = new Schema(
@@ -32,6 +33,7 @@ const NewsSchema: Schema = new Schema(
     published: { type: Boolean, default: true },
     tags: { type: [String], default: [] },
     gallery: { type: [String], default: [] },
+    views: { type: Number, default: 0 },
   },
   {
     timestamps: true,

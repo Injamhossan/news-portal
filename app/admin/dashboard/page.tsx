@@ -45,8 +45,14 @@ export default function AdminDashboard() {
 
   const fetchNews = async () => {
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "";
+      const apiUrl = (process.env.NEXT_PUBLIC_API_URL || "").replace(/\/$/, "");
+      console.log("Fetching news from:", `${apiUrl}/api/news`);
       const res = await fetch(`${apiUrl}/api/news`);
+      
+      if (!res.ok) {
+        throw new Error(`Failed to fetch news: ${res.status} ${res.statusText}`);
+      }
+
       const data = await res.json();
       setNews(data);
     } catch (error) {
@@ -58,7 +64,7 @@ export default function AdminDashboard() {
     if (!confirm("আপনি কি নিশ্চিত যে আপনি এই খবরটি মুছে ফেলতে চান?")) return;
 
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "";
+      const apiUrl = (process.env.NEXT_PUBLIC_API_URL || "").replace(/\/$/, "");
       const res = await fetch(`${apiUrl}/api/news/${id}`, {
         method: "DELETE",
       });
@@ -106,7 +112,7 @@ export default function AdminDashboard() {
           </div>
           <div className="flex items-center gap-4 md:gap-6">
              <Link href="/" target="_blank" className="text-gray-300 hover:text-white flex items-center gap-2 text-sm transition-colors">
-                <span className="hidden sm:inline">View Site</span>
+                <span className="hidden sm:inline">সাইট দেখুন</span>
                 <ExternalLink className="w-4 h-4" />
              </Link>
              <button
@@ -114,7 +120,7 @@ export default function AdminDashboard() {
                 className="text-gray-300 hover:text-white flex items-center gap-2 text-sm transition-colors"
                 >
                 <LogOut className="w-4 h-4" />
-                <span className="hidden sm:inline">Logout</span>
+                <span className="hidden sm:inline">লগআউট</span>
             </button>
           </div>
         </div>
@@ -128,7 +134,7 @@ export default function AdminDashboard() {
                     <FileText className="w-6 h-6" />
                 </div>
                 <div>
-                     <p className="text-sm text-gray-500 font-medium">Total Articles</p>
+                     <p className="text-sm text-gray-500 font-medium">মোট সংবাদ</p>
                      <p className="text-2xl font-bold text-gray-900">{totalArticles}</p>
                 </div>
             </div>
@@ -137,7 +143,7 @@ export default function AdminDashboard() {
                     <Eye className="w-6 h-6" />
                 </div>
                 <div>
-                     <p className="text-sm text-gray-500 font-medium">Published</p>
+                     <p className="text-sm text-gray-500 font-medium">প্রকাশিত</p>
                      <p className="text-2xl font-bold text-gray-900">{publishedArticles}</p>
                 </div>
             </div>
@@ -146,7 +152,7 @@ export default function AdminDashboard() {
                     <Edit3 className="w-6 h-6" />
                 </div>
                 <div>
-                     <p className="text-sm text-gray-500 font-medium">Drafts</p>
+                     <p className="text-sm text-gray-500 font-medium">খসড়া</p>
                      <p className="text-2xl font-bold text-gray-900">{draftArticles}</p>
                 </div>
             </div>
@@ -155,7 +161,7 @@ export default function AdminDashboard() {
                     <Zap className="w-6 h-6" />
                 </div>
                 <div>
-                     <p className="text-sm text-gray-500 font-medium">Breaking</p>
+                     <p className="text-sm text-gray-500 font-medium">ব্রেকিং</p>
                      <p className="text-2xl font-bold text-gray-900">{breakingArticles}</p>
                 </div>
             </div>
@@ -167,7 +173,7 @@ export default function AdminDashboard() {
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                 <input 
                     type="text" 
-                    placeholder="Search articles..." 
+                    placeholder="সংবাদ খুঁজুন..." 
                     className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#111827] focus:border-transparent bg-white text-sm"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
@@ -178,7 +184,7 @@ export default function AdminDashboard() {
                 className="bg-[#111827] hover:bg-gray-800 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 text-sm w-full md:w-auto justify-center"
             >
                 <Plus className="w-4 h-4" />
-                <span>New Article</span>
+                <span>নতুন সংবাদ</span>
             </Link>
         </div>
 
@@ -188,11 +194,11 @@ export default function AdminDashboard() {
             <table className="w-full text-left border-collapse">
                 <thead className="bg-gray-50 border-b border-gray-100">
                 <tr>
-                    <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Title</th>
-                    <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Category</th>
-                    <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th>
-                    <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Date</th>
-                    <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider text-right">Actions</th>
+                    <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">শিরোনাম</th>
+                    <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">ক্যাটাগরি</th>
+                    <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">অবস্থা</th>
+                    <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">তারিখ</th>
+                    <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider text-right">অ্যাকশন</th>
                 </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-50">
@@ -255,7 +261,7 @@ export default function AdminDashboard() {
                     <td colSpan={5} className="text-center py-12">
                         <div className="flex flex-col items-center justify-center text-gray-400">
                              <FileText className="w-12 h-12 mb-3 text-gray-200" />
-                            <p>No articles found. Create your first article!</p>
+                            <p>কোনো সংবাদ পাওয়া যায়নি। আপনার প্রথম সংবাদটি তৈরি করুন!</p>
                         </div>
                     </td>
                     </tr>

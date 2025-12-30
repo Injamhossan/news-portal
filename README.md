@@ -18,7 +18,7 @@ A dynamic and responsive news portal application built with Next.js, focusing on
 
 ## 🛠️ Tech Stack
 
--   **Framework:** [Next.js 16](https://nextjs.org/) (App Router)
+-   **Framework:** [Next.js 15](https://nextjs.org/) (App Router)
 -   **Language:** [TypeScript](https://www.typescriptlang.org/)
 -   **Styling:** [Tailwind CSS](https://tailwindcss.com/)
 -   **Database:** [MongoDB](https://www.mongodb.com/)
@@ -41,8 +41,8 @@ Follow these steps to set up the project locally.
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/Injamhossan/news-portal.git
-    cd news-portal
+    git clone https://github.com/Injamhossan/doiniksorboshesh.git
+    cd doiniksorboshesh
     ```
 
 2.  **Install dependencies:**

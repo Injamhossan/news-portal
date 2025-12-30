@@ -22,7 +22,16 @@ if (!cached) {
 
 async function connectDB() {
   if (cached.conn) {
-    return cached.conn;
+    // If the cached connection is to the wrong database (e.g. 'test' instead of 'news_db'),
+    // we should disconnect and reconnect.
+    if (cached.conn.connection.name !== "news_db") {
+         console.log(`Detected database mismatch: ${cached.conn.connection.name}. Switching to news_db...`);
+         await cached.conn.connection.close();
+         cached.conn = null;
+         cached.promise = null;
+    } else {
+        return cached.conn;
+    }
   }
 
   if (!cached.promise) {

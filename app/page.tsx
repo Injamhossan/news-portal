@@ -11,6 +11,9 @@ import News from "@/models/News";
 import BreakingNews from "@/components/BreakingNews";
 import NewsFeed from "@/components/NewsFeed";
 
+
+export const dynamic = "force-dynamic";
+
 async function getNews() {
   try {
     const conn = await connectDB();

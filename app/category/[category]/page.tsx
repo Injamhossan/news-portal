@@ -9,6 +9,9 @@ interface CategoryPageProps {
   params: Promise<{ category: string }>;
 }
 
+
+export const dynamic = "force-dynamic";
+
 export async function generateStaticParams() {
    try {
     await connectDB();
@@ -16,7 +19,7 @@ export async function generateStaticParams() {
     const categories = await News.distinct("category");
     
     return categories.map((category) => ({
-      category: encodeURIComponent(category),
+      category: category,
     }));
   } catch (e) {
       console.error("Error generating static params", e);

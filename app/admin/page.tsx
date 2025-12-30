@@ -47,7 +47,7 @@ export default function AdminLogin() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 font-anek p-4">
       <div className="bg-white p-8 rounded-xl shadow-md w-full max-w-md border border-gray-200">
-        <h2 className="text-2xl font-bold mb-6 text-center text-gray-800 font-serif">
+        <h2 className="text-2xl font-bold mb-6 text-center text-gray-800 font-anek">
           অ্যাডমিন প্যানেল লগইন
         </h2>
         {error && (

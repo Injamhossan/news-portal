@@ -12,7 +12,7 @@ export default function Loading() {
         
         {/* Text */}
         <div className="flex flex-col items-center gap-1">
-            <h2 className="text-xl font-bold font-serif text-gray-800 tracking-wide">
+            <h2 className="text-xl font-bold font-anek text-gray-800 tracking-wide">
                 দৈনিক সর্বশেষ সংবাদ
             </h2>
             <p className="text-sm text-gray-400 font-anek animate-pulse">

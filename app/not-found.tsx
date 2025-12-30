@@ -8,7 +8,7 @@ export default function NotFound() {
         <AlertTriangle className="w-16 h-16 text-[#D32F2F]" />
       </div>
       
-      <h1 className="text-6xl md:text-8xl font-bold text-gray-900 mb-2 font-serif">
+      <h1 className="text-6xl md:text-8xl font-bold text-gray-900 mb-2 font-anek">
         ৪০৪
       </h1>
       

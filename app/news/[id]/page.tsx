@@ -49,7 +49,7 @@ export async function generateMetadata(
       title: news.title,
       description: news.excerpt,
       url: `/news/${id}`,
-      siteName: 'Doinik Sorboshesh',
+      siteName: 'Doinik Sorboshesh Shongbad',
       images: [
         {
           url: news.image || "https://placehold.co/1200x630/png?text=No+Image",

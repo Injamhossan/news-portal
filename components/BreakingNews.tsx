@@ -6,8 +6,18 @@ interface BreakingNewsProps {
 }
 
 export default function BreakingNews({ news }: BreakingNewsProps) {
-  // Filter only breaking news
-  const breakingNews = news.filter((item) => item.isBreaking);
+  // Filter only breaking news that are within 2 days (48 hours)
+  const breakingNews = news.filter((item) => {
+    if (!item.isBreaking) return false;
+
+    // Check if the news was updated/created within the last 48 hours
+    const newsDate = new Date(item.updatedAt || item.createdAt);
+    const now = new Date();
+    const timeDiff = now.getTime() - newsDate.getTime();
+    const hoursDiff = timeDiff / (1000 * 3600);
+
+    return hoursDiff <= 48;
+  });
 
   if (breakingNews.length === 0) return null;
 

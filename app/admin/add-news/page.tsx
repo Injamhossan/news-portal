@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Eye, Save, Send } from "lucide-react";
+
+const DRAFT_KEY = "news-draft";
 
 export default function AddNews() {
   const router = useRouter();
@@ -21,6 +23,27 @@ export default function AddNews() {
     tags: "",
     gallery: [] as string[],
   });
+
+  // Load draft from local storage on mount
+  useEffect(() => {
+    const savedDraft = localStorage.getItem(DRAFT_KEY);
+    if (savedDraft) {
+      try {
+        const parsedDraft = JSON.parse(savedDraft);
+        setFormData((prev) => ({ ...prev, ...parsedDraft }));
+      } catch (error) {
+        console.error("Failed to parse draft", error);
+      }
+    }
+  }, []);
+
+  // Save to local storage whenever formData changes
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+        localStorage.setItem(DRAFT_KEY, JSON.stringify(formData));
+    }, 500); // 500ms debounce to avoid excessive writes
+    return () => clearTimeout(timeoutId);
+  }, [formData]);
 
   const categories = [
     { label: "Cover (প্রচ্ছদ)", value: "প্রচ্ছদ", color: "bg-gray-500" },
@@ -119,6 +142,7 @@ export default function AddNews() {
       });
 
       if (res.ok) {
+        localStorage.removeItem(DRAFT_KEY);
         router.push("/admin/dashboard");
       } else {
         const data = await res.json();

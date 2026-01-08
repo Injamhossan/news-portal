@@ -76,7 +76,7 @@ export default async function NewsPrintPage({ params }: PrintPageProps) {
       </div>
       
       {/* Main Card */}
-      <div id="newspaper-card" className="max-w-[800px] mx-auto bg-white p-8 md:p-12 shadow-lg print:shadow-none print:w-full print:max-w-none print:mx-0 print:p-0">
+      <div id="newspaper-card" className="w-[800px] mx-auto bg-white p-12 shadow-lg print:shadow-none print:w-full print:max-w-none print:mx-0 print:p-0">
         
         {/* Newspaper Header */}
         <div className="text-center border-b-2 border-black pb-4 mb-6">
@@ -101,7 +101,7 @@ export default async function NewsPrintPage({ params }: PrintPageProps) {
 
         {/* Content */}
         <article>
-            <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-6 leading-tight">
+            <h2 className="text-4xl font-bold text-center text-gray-900 mb-6 leading-tight">
                 {news.title}
             </h2>
 
@@ -135,7 +135,7 @@ export default async function NewsPrintPage({ params }: PrintPageProps) {
         {/* Footer */}
         <div className="mt-12 pt-6 border-t-2 border-black text-center text-xs text-gray-500">
             <p>সম্পাদক ও প্রকাশক: মাহবুব আলম | অফিস: তেজকুনি পাড়া, ফার্মগেট</p>
-            <p>ইমেইল: info@doiniksorboshesh.com | ফোন: +8801345160892</p>
+            <p>ইমেইল: info@dailylatestnewsbd.com | ফোন: +8801345160892</p>
         </div>
 
       </div>

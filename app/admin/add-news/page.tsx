@@ -124,10 +124,7 @@ export default function AddNews() {
     const categoryColor = selectedCat ? selectedCat.color : "bg-gray-500";
 
     try {
-      const apiUrl = (process.env.NEXT_PUBLIC_API_URL || "").replace(/\/$/, "");
-      console.log("Adding news to:", `${apiUrl}/api/news`);
-      
-      const res = await fetch(`${apiUrl}/api/news`, {
+      const res = await fetch(`/api/news`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json", 

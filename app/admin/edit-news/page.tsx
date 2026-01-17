@@ -68,8 +68,7 @@ function EditNewsContent() {
 
     const fetchNews = async () => {
       try {
-        const apiUrl = (process.env.NEXT_PUBLIC_API_URL || "").replace(/\/$/, "");
-        const res = await fetch(`${apiUrl}/api/news/${id}`);
+        const res = await fetch(`/api/news/${id}`);
         if (!res.ok) throw new Error("Failed to fetch news");
         const data = await res.json();
         
@@ -139,8 +138,7 @@ function EditNewsContent() {
     const categoryColor = selectedCat ? selectedCat.color : "bg-gray-500";
 
     try {
-      const apiUrl = (process.env.NEXT_PUBLIC_API_URL || "").replace(/\/$/, "");
-      const res = await fetch(`${apiUrl}/api/news/${id}`, {
+      const res = await fetch(`/api/news/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

@@ -45,9 +45,7 @@ export default function AdminDashboard() {
 
   const fetchNews = async () => {
     try {
-      const apiUrl = (process.env.NEXT_PUBLIC_API_URL || "").replace(/\/$/, "");
-      console.log("Fetching news from:", `${apiUrl}/api/news`);
-      const res = await fetch(`${apiUrl}/api/news`);
+      const res = await fetch(`/api/news`);
       
       if (!res.ok) {
         throw new Error(`Failed to fetch news: ${res.status} ${res.statusText}`);
@@ -64,8 +62,7 @@ export default function AdminDashboard() {
     if (!confirm("আপনি কি নিশ্চিত যে আপনি এই খবরটি মুছে ফেলতে চান?")) return;
 
     try {
-      const apiUrl = (process.env.NEXT_PUBLIC_API_URL || "").replace(/\/$/, "");
-      const res = await fetch(`${apiUrl}/api/news/${id}`, {
+      const res = await fetch(`/api/news/${id}`, {
         method: "DELETE",
       });
       if (res.ok) {
@@ -86,8 +83,8 @@ export default function AdminDashboard() {
 
   // Derived Statistics
   const totalArticles = news.length;
-  const publishedArticles = news.length; // Assuming all are published for now
-  const draftArticles = 0; // Placeholder
+  const publishedArticles = news.length;
+  const draftArticles = 0;
   const breakingArticles = news.filter(n => n.isBreaking).length;
 
   // Filtered News

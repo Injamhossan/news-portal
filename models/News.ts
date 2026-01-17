@@ -16,6 +16,7 @@ export interface INews extends Document {
   tags: string[];
   gallery?: string[];
   views?: number;
+  breakingExpiresAt?: Date;
 }
 
 const NewsSchema: Schema = new Schema(
@@ -34,6 +35,7 @@ const NewsSchema: Schema = new Schema(
     tags: { type: [String], default: [] },
     gallery: { type: [String], default: [] },
     views: { type: Number, default: 0 },
+    breakingExpiresAt: { type: Date }, 
   },
   {
     timestamps: true,

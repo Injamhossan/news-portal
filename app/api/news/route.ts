@@ -37,7 +37,22 @@ export async function GET(request: Request) {
     }
 
     const news = await queryBuilder;
-    return NextResponse.json(news);
+
+    // Check for expired breaking news
+    const now = new Date();
+    const processedNews = news.map(item => {
+      // If it's breaking but expired, we treat it as not breaking for display
+      // Ideally we would update the DB, but "read-time" correction is faster/safer for now
+      if (item.isBreaking && item.breakingExpiresAt && new Date(item.breakingExpiresAt) < now) {
+         // Create a shallow copy to avoid mutating the original mongoose doc if it's strict
+         const plainItem = item.toObject ? item.toObject() : { ...item };
+         plainItem.isBreaking = false;
+         return plainItem;
+      }
+      return item;
+    });
+
+    return NextResponse.json(processedNews);
   } catch (error: any) {
     console.error("Error fetching news:", error);
     return NextResponse.json(
@@ -51,6 +66,12 @@ export async function POST(request: Request) {
   try {
     await connectDB();
     const body = await request.json();
+    
+    // Set expiration if breaking
+    if (body.isBreaking) {
+        body.breakingExpiresAt = new Date(Date.now() + 2 * 24 * 60 * 60 * 1000); // 48 hours
+    }
+
     const news = await News.create(body);
     return NextResponse.json(news, { status: 201 });
   } catch (error: any) {
